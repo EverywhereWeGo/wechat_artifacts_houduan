@@ -1,7 +1,4 @@
 package a;
-        /*
-         * 数据库连接的管理类
-         */
 
 import java.io.FileInputStream;
 import java.sql.Connection;
@@ -17,19 +14,20 @@ public class DBUtil {
 
     static {
         try {
-            Properties prop=new Properties();
-            prop.load(new FileInputStream("config.properties"));
-            driverclass=prop.getProperty("driverclass");
-            url=prop.getProperty("url");
-            username=prop.getProperty("username");
-            password=prop.getProperty("password");
+            Properties prop = new Properties();
+            prop.load(new FileInputStream(DBUtil.class.getClass().getResource("/").toURI().getPath().substring(1) + "config.properties"));
+            driverclass = prop.getProperty("driverclass");
+            url = prop.getProperty("url");
+            username = prop.getProperty("username");
+            password = prop.getProperty("password");
 
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
 
         }
     }
+
     public static Connection getConnection() {
         Connection conn = null;
         try {
@@ -52,6 +50,13 @@ public class DBUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static void main(String args[]) {
+        DBUtil.getConnection();
+
+
     }
 
 }
