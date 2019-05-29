@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -112,7 +113,7 @@ public class SpliderWechat {
     }
 
 
-    public static void main(String[] args) throws SQLException, URISyntaxException {
+    public static void main(String[] args) throws SQLException, URISyntaxException, IOException {
         String myneed[] = {
                 "https://weixin.sogou.com/weixin?type=1&s_from=input&query=码农翻身&ie=utf8&_sug_=n&_sug_type_=&w=01019900&sut=6532&sst0=1559045167494&lkt=0%2C0%2C0",
                 "https://weixin.sogou.com/weixin?type=1&s_from=input&query=程序员小灰&ie=utf8&_sug_=n&_sug_type_=&w=01019900&sut=6532&sst0=1559045167494&lkt=0%2C0%2C0"
@@ -127,4 +128,23 @@ public class SpliderWechat {
         }
 
     }
+
+    public String asasdf() throws SQLException, URISyntaxException, IOException {
+        String resultstr = "";
+        String myneed[] = {
+                "https://weixin.sogou.com/weixin?type=1&s_from=input&query=码农翻身&ie=utf8&_sug_=n&_sug_type_=&w=01019900&sut=6532&sst0=1559045167494&lkt=0%2C0%2C0",
+                "https://weixin.sogou.com/weixin?type=1&s_from=input&query=程序员小灰&ie=utf8&_sug_=n&_sug_type_=&w=01019900&sut=6532&sst0=1559045167494&lkt=0%2C0%2C0"
+        };
+        for (int i = 0; i < myneed.length; i++) {
+            String url = myneed[i];
+            String result = SelnuimUtil.getNeedString(url);
+            String msgList = result.substring(result.indexOf("var msgList = ") + 22, result.indexOf("seajs.use") - 11);
+            resultstr += msgList;
+
+        }
+        return resultstr;
+
+    }
+
+
 }
