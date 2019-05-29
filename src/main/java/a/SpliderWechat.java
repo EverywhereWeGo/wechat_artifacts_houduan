@@ -108,45 +108,23 @@ public class SpliderWechat {
         for (int i = 0; i < data2.length; i++) {
             System.out.println(data2[i]);
         }
-        System.out.println("操作完毕");
-
-
+        System.out.println("入库完毕");
     }
 
 
     public static void main(String[] args) throws SQLException, URISyntaxException {
         String myneed[] = {
                 "https://weixin.sogou.com/weixin?type=1&s_from=input&query=码农翻身&ie=utf8&_sug_=n&_sug_type_=&w=01019900&sut=6532&sst0=1559045167494&lkt=0%2C0%2C0",
+                "https://weixin.sogou.com/weixin?type=1&s_from=input&query=程序员小灰&ie=utf8&_sug_=n&_sug_type_=&w=01019900&sut=6532&sst0=1559045167494&lkt=0%2C0%2C0"
         };
         for (int i = 0; i < myneed.length; i++) {
             String url = myneed[i];
             String result = SelnuimUtil.getNeedString(url);
-            System.out.println("result:" + result);
             String msgList = result.substring(result.indexOf("var msgList = ") + 22, result.indexOf("seajs.use") - 11);
-            System.out.println(msgList);
-//
-//
             List<JSONObject> needlist = getInfoList(msgList);
             listToMysql(String.valueOf(i), needlist);
 
         }
-
-
-//        String urls[] = {
-//                "http://mp.weixin.qq.com/profile?src=3&timestamp=1559025173&ver=1&signature=FIycc4ngtmB2HLX2h1HqBu5oBTwmndp0itghW7lq9bgQHSy3grSKbcEDnNGkLtximArxmbLmasnaVOnBAnfvww==",
-//                "http://mp.weixin.qq.com/profile?src=3&timestamp=1559014028&ver=1&signature=0NPCb51SzGU07WDQFwcr2FA1T2Oh3K1oBt*e8ds1nQ*hp4Y*ipoAqQC4chmnMSls4FW0JgZWLX4IS8JHq7sGvw==",
-//                "http://mp.weixin.qq.com/profile?src=3&timestamp=1559028407&ver=1&signature=FIycc4ngtmB2HLX2h1HqBu5oBTwmndp0itghW7lq9bgQHSy3grSKbcEDnNGkLtxiB9jAdFP7fVjbgsV2yiXxIA=="
-//        };
-//        for (int i = 0; i < urls.length; i++) {
-//            String url = urls[i];
-//            String result = sendRequest(url, "POST");
-//            String msgList = result.substring(result.indexOf("var msgList = ") + 22, result.indexOf("seajs.use") - 10);
-//
-//
-//            List<JSONObject> needlist = getInfoList(msgList);
-//            listToMysql(String.valueOf(i), needlist);
-//
-//        }
 
     }
 }
