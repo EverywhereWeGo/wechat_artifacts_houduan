@@ -9,6 +9,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class WebappWechatApplication {
 
+    public static void main(String[] args) {
+        SpringApplication.run(WebappWechatApplication.class, args);
+    }
+
     @Bean
     public FilterRegistrationBean CorsFilterRegistration() {
 
@@ -19,10 +23,5 @@ public class WebappWechatApplication {
         registration.setName("corsFilter");
         registration.setOrder(1);
         return registration;
-    }
-
-
-    public static void main(String[] args) {
-        SpringApplication.run(WebappWechatApplication.class, args);
     }
 }

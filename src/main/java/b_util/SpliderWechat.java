@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class SpliderWechat {
-    public static List<JSONObject> getInfoList(String msgList) throws SQLException {
+    public static List<JSONObject> getInfoList(String msgList) {
         List<JSONObject> resultlist = new LinkedList<JSONObject>();
         JSONArray jsonArray = JSON.parseArray(msgList);
         for (int i = 0; i < 3; i++) {
@@ -29,31 +29,37 @@ public class SpliderWechat {
 
     }
 
-    public static void listToMysql(String datasource, List<JSONObject> needlist) throws SQLException {
+    public static void listToMysql(String datasource, List<JSONObject> needlist) {
         Connection conn = DBUtil.getConnection();
-        conn.setAutoCommit(false);
-        String sql = "INSERT INTO jsonarray_data "
-                + "(id,article_date,article_source,article_jsonarray) "
-                + "VALUES "
-                + "(?,?,?,?)";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        for (int i = 0; i < needlist.size(); i++) {
-            String id = "1";
-            String article_date = needlist.get(i).getString("datetime");
-            String article_source = datasource;
-            String article_jsonarray = needlist.get(i).getString("jsonarray");
-            ps.setString(1, id);
-            ps.setString(2, article_date);
-            ps.setString(3, article_source);
-            ps.setString(4, article_jsonarray);
-            ps.addBatch();
-        }
+        try {
+            conn.setAutoCommit(false);
+            String sql = "INSERT INTO jsonarray_data "
+                    + "(id,article_date,article_source,article_jsonarray) "
+                    + "VALUES "
+                    + "(?,?,?,?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            for (int i = 0; i < needlist.size(); i++) {
+                String id = "1";
+                String article_date = needlist.get(i).getString("datetime");
+                String article_source = datasource;
+                String article_jsonarray = needlist.get(i).getString("jsonarray");
+                ps.setString(1, id);
+                ps.setString(2, article_date);
+                ps.setString(3, article_source);
+                ps.setString(4, article_jsonarray);
+                ps.addBatch();
+            }
+            ps.executeBatch();
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        int[] data2 = ps.executeBatch();
-        conn.commit();
-        System.out.println(data2.length);
-        for (int i = 0; i < data2.length; i++) {
-            System.out.println(data2[i]);
         }
         System.out.println("入库完毕");
     }
@@ -76,27 +82,29 @@ public class SpliderWechat {
 //
 //    }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         String urls[] = {
-                "https://weixin.sogou.com/weixin?type=1&s_from=input&query=程序员小灰",
-                "https://weixin.sogou.com/weixin?type=1&s_from=input&query=码农翻身"
-//                "https://weixin.sogou.com/weixin?type=1&s_from=input&query=码农有道"
+                "程序员小灰",
+                "码农翻身",
+                "码农有道"
         };
+        System.out.println("urls.length:" + urls.length);
         for (int i = 0; i < urls.length; i++) {
             String url = urls[i];
-            String result = SelnuimUtil.getNeedString(url);
+            String result = SelnuimUtil.getNeedString("https://weixin.sogou.com/weixin?type=1&s_from=input&query=" + url);
             List<JSONObject> needlist = getInfoList(result);
             listToMysql(String.valueOf(i), needlist);
 
 
             JSONArray jsonArray = JSON.parseArray(result);
-            for (int j = 0; i < 3; i++) {
-                String cover = jsonArray.getJSONObject(i).getJSONObject("app_msg_ext_info").getString("cover");
-                System.out.println(cover);
-                GetUrlPic.getpic(cover);
+            for (int j = 0; j < jsonArray.size(); j++) {
+                String cover = jsonArray.getJSONObject(j).getJSONObject("app_msg_ext_info").getString("cover");
+                String id = jsonArray.getJSONObject(j).getJSONObject("comm_msg_info").getString("id");
+                System.out.println("cover:" + cover);
+                System.out.println("id:" + id);
+                GetUrlPic.getpic(cover, id);
             }
         }
-
     }
 
     public String asasdf() throws SQLException, URISyntaxException, IOException {

@@ -1,35 +1,47 @@
 package b_util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 public class GetUrlPic {
 
-    public static void getpic(String urlstr) throws Exception {
+    public static void getpic(String urlstr, String title) {
         //new一个URL对象
-        URL url = new URL(urlstr);
-        //打开链接
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        //设置请求方式为"GET"
-        conn.setRequestMethod("GET");
-        //超时响应时间为5秒
-        conn.setConnectTimeout(5 * 1000);
-        //通过输入流获取图片数据
-        InputStream inStream = conn.getInputStream();
-        //得到图片的二进制数据，以二进制封装得到数据，具有通用性
-        byte[] data = readInputStream(inStream);
-        //new一个文件对象用来保存图片，默认保存当前工程根目录
-        File imageFile = new File(Math.random() + ".jpg");
-        //创建输出流
-        FileOutputStream outStream = new FileOutputStream(imageFile);
-        //写入数据
-        outStream.write(data);
-        //关闭输出流
-        outStream.close();
+        try {
+
+            URL url = new URL(urlstr);
+            //打开链接
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            //设置请求方式为"GET"
+            conn.setRequestMethod("GET");
+            //超时响应时间为5秒
+            conn.setConnectTimeout(5 * 1000);
+            //通过输入流获取图片数据
+            InputStream inStream = conn.getInputStream();
+            //得到图片的二进制数据，以二进制封装得到数据，具有通用性
+            byte[] data = readInputStream(inStream);
+            //new一个文件对象用来保存图片，默认保存当前工程根目录
+            File imageFile = new File(title + ".jpg");
+            //创建输出流
+            FileOutputStream outStream = new FileOutputStream(imageFile);
+            //写入数据
+            outStream.write(data);
+            //关闭输出流
+            outStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static byte[] readInputStream(InputStream inStream) throws Exception {
