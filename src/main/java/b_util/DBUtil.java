@@ -1,4 +1,4 @@
-package a;
+package b_util;
 
 import java.io.FileInputStream;
 import java.sql.Connection;
@@ -15,7 +15,10 @@ public class DBUtil {
     static {
         try {
             Properties prop = new Properties();
-            prop.load(new FileInputStream(DBUtil.class.getClass().getResource("/").toURI().getPath().substring(1) + "config.properties"));
+//            this.getClass().getResourceAsStream("/files/aa.xls");
+//            System.out.println(DBUtil.class.getClass().getResource("/").toURI().getPath().substring(1) + "config.properties");
+            prop.load(new FileInputStream("C:\\Users\\Administrator\\Desktop\\我的代码\\wechat_artifacts_houtai\\src\\main\\resources\\config.properties"));
+//            prop.load(new FileInputStream("/opt/wechat_article/houduan/config.properties"));
             driverclass = prop.getProperty("driverclass");
             url = prop.getProperty("url");
             username = prop.getProperty("username");
