@@ -1,4 +1,4 @@
-package b_util;
+package com.b_util;
 
 import java.io.FileInputStream;
 import java.sql.Connection;

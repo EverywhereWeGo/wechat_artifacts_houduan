@@ -1,4 +1,4 @@
-package b_util;
+package com.b_util;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,26 +9,20 @@ import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.logging.Level;
 
 
 public class SelnuimUtil {
     public static String getNeedString(String url) {
         String resultStr = "";
-        try {
-            System.getProperties().setProperty("webdriver.chrome.driver", SelnuimUtil.class.getClass().getResource("/").toURI().getPath().substring(1) + "chromedriver.exe");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        System.getProperties().setProperty("webdriver.chrome.driver", "C:\\Users\\Administrator\\Desktop\\我的代码\\wechat_artifacts_houtai\\src\\main\\resources\\chromedriver.exe");
+
+//        System.getProperties().setProperty("webdriver.chrome.driver", SelnuimUtil.class.getClass().getResource("/").toURI().getPath().substring(1) + "chromedriver.exe");
 //        ChromeOptions options = new ChromeOptions();
 //        options.addArguments("disable-infobars");
 //        options.addArguments("start-maximized");
 //        options.addArguments("headless");
 //        WebDriver driver = new ChromeDriver(options);
         WebDriver driver = new ChromeDriver();
-        for (String availableLogType : driver.manage().logs().getAvailableLogTypes()) {
-            System.out.println(availableLogType);
-        }
         driver.get(url);//打开指定的网站
 
 

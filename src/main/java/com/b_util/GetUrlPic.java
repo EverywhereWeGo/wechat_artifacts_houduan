@@ -1,4 +1,4 @@
-package b_util;
+package com.b_util;
 
 import java.io.*;
 import java.net.HttpURLConnection;

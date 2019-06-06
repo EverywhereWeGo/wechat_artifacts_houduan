@@ -1,6 +1,6 @@
-package a_controller;
+package com.a_controller;
 
-import b_util.SpliderWechat;
+import com.b_util.SpliderWechat;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
