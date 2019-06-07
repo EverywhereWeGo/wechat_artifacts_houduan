@@ -7,20 +7,21 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.b_util.SpliderWechat.asdfasdfasd;
+import static com.c_SpliderWechat.SpliderWechat.startSplider;
 
 @SpringBootApplication
 @EnableSwagger2
 public class WebappWechatApplication {
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         SpringApplication.run(WebappWechatApplication.class, args);
-        timer2();
+        timer();
     }
 
 
@@ -36,20 +37,22 @@ public class WebappWechatApplication {
         return registration;
     }
 
-    public static void timer2() {
+    public static void timer() {
+        SimpleDateFormat sdf = null;
+        Date startdate = null;
+        try {
+            sdf = new SimpleDateFormat("yyyy-mm-dd  HH:mm:ss");
+            startdate = sdf.parse("2019-06-07 15:00:00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                try {
-                    asdfasdfasd();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("-------延迟5000毫秒，每1000毫秒执行一次--------");
+                startSplider();
+                System.out.println("等待下一次抓取");
             }
-        }, 5000, 2 * 60 * 60 * 1000);
+        }, startdate, 4 * 60 * 60 * 1000);
     }
 
 }
