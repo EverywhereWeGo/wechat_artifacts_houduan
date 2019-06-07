@@ -27,10 +27,9 @@ public class SpliderWechat {
             if (null == cover) {
                 cover = jsonArray.getJSONObject(j).getJSONObject("app_msg_ext_info").getJSONArray("multi_app_msg_item_list").getJSONObject(0).getString("cover");
             }
-            System.out.println("cover:" + cover);
-            System.out.println("id:" + id);
             getpic(cover, id);
         }
+        System.out.println("图片下载完毕");
     }
 
 
@@ -161,13 +160,13 @@ public class SpliderWechat {
             String wechatName = wechatNames[i];
             String result = startThreeTimeAccess(wechatName);
             try {
-                //每次间隔10s
-                Thread.sleep(10000);
+                //每次间隔10min
+                Thread.sleep(10 * 60 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            if ("".equals(result)) {
+            if ("".equals(result) || result.contains("为了保护你的网络安全，请输入验证码")) {
                 System.out.println(wechatName + "抓取失败");
                 continue;
             }

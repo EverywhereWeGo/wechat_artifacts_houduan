@@ -41,8 +41,8 @@ public class WebappWechatApplication {
         SimpleDateFormat sdf = null;
         Date startdate = null;
         try {
-            sdf = new SimpleDateFormat("yyyy-mm-dd  HH:mm:ss");
-            startdate = sdf.parse("2019-06-07 15:00:00");
+            sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            startdate = sdf.parse("2019-06-07 08:00:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -52,7 +52,7 @@ public class WebappWechatApplication {
                 startSplider();
                 System.out.println("等待下一次抓取");
             }
-        }, startdate, 4 * 60 * 60 * 1000);
+        }, startdate, 2 * 60 * 60 * 1000);
     }
 
 }

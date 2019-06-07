@@ -25,10 +25,6 @@ public class HttpClientHelper {
                 getMethod.addRequestHeader(entry.getKey(), entry.getValue());
             }
         }
-//        Header[] asdf = getMethod.getRequestHeaders();
-//        for (int i = 0; i < asdf.length; i++) {
-//            System.out.println(asdf[i]);
-//        }
 
         try {
             httpClient.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
@@ -36,9 +32,7 @@ public class HttpClientHelper {
 
             String cookiestr = "";
             Cookie[] cookies = httpClient.getState().getCookies();
-            if (cookies.length == 0) {
-                System.out.println("None");
-            } else {
+            if (!(cookies.length == 0)) {
                 for (int i = 0; i < cookies.length; i++) {
                     cookiestr = cookiestr + cookies[i].toString() + ";";
                 }
