@@ -9,10 +9,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.Date;
 import java.util.*;
 
 import static com.b_util.HttpClientHelper.*;
@@ -35,9 +33,11 @@ public class SpliderWechat {
     public static void listToMysql(String datasource, List<JSONObject> needlist) {
         Connection conn = DBUtil.getConnection();
         try {
+            Statement deleteStatement = conn.createStatement();
+            deleteStatement.execute("DELETE FROM jsonarray_data WHERE article_source= " + datasource);
+
             conn.setAutoCommit(false);
-            String sql = "DELETE FROM jsonarray_data WHERE article_source= " + datasource + ";"
-                    + "INSERT INTO jsonarray_data "
+            String sql = "INSERT INTO jsonarray_data "
                     + "(id,article_date,article_source,article_jsonarray,title) "
                     + "VALUES "
                     + "(?,?,?,?,?)";
@@ -178,7 +178,6 @@ public class SpliderWechat {
         } else {
             resultStr = htmlstr.substring(htmlstr.indexOf("var msgList = ") + 22, htmlstr.indexOf("seajs.use") - 11);
         }
-        System.out.println("context：" + resultStr);
         return resultStr;
 
     }

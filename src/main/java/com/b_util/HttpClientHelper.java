@@ -19,11 +19,11 @@ public class HttpClientHelper {
         // 创建httpClient实例对象
         HttpClient httpClient = new HttpClient();
         // 设置httpClient连接主机服务器超时时间：15000毫秒
-        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(15000);
+        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(100000);
         // 创建post请求方法实例对象
         PostMethod postMethod = new PostMethod(urlParam);
         // 设置post请求超时时间
-        postMethod.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, 60000);
+        postMethod.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, 100000);
         if (!(null == requestHeaders)) {
             for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
                 postMethod.addRequestHeader(entry.getKey(), entry.getValue());
@@ -55,7 +55,7 @@ public class HttpClientHelper {
         // 创建httpClient实例对象
         HttpClient httpClient = new HttpClient();
         // 设置httpClient连接主机服务器超时时间：15000毫秒
-        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(60000);
+        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(100000);
         // 创建GET请求方法实例对象
         GetMethod getMethod = new GetMethod(url);
         if (!(null == requestHeaders)) {
@@ -95,7 +95,7 @@ public class HttpClientHelper {
         // 创建httpClient实例对象
         HttpClient httpClient = new HttpClient();
         // 设置httpClient连接主机服务器超时时间：15000毫秒
-        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(60000);
+        httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(100000);
         // 创建GET请求方法实例对象
         GetMethod getMethod = new GetMethod(url);
         if (!(null == requestHeaders)) {
@@ -109,7 +109,7 @@ public class HttpClientHelper {
 
 
 //            File storeFile = new File("C:\\Users\\Administrator\\Desktop\\我的代码\\wechat_artifacts_qianduan\\img\\" + title + ".jpg");
-            File storeFile = new File("/opt/" + title + ".jpg");
+            File storeFile = new File("/opt/wechat_article/qianduan/img/" + title + ".jpg");
 
             FileOutputStream output = new FileOutputStream(storeFile);
             //得到网络资源的字节数组,并写入文件
