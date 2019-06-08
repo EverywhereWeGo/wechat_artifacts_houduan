@@ -28,7 +28,6 @@ public class HelloController {
             resultstr += article_jsonarray;
         }
         resultstr = resultstr.substring(0, resultstr.length() - 1);
-//        System.out.println(resultstr);
         return "[" + resultstr + "]";
 
     }
