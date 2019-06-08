@@ -24,8 +24,8 @@ public class GetUrlPic {
             //得到图片的二进制数据，以二进制封装得到数据，具有通用性
             byte[] data = readInputStream(inStream);
             //new一个文件对象用来保存图片，默认保存当前工程根目录
-//            File imageFile = new File(title + ".jpg");
-            File imageFile = new File("/opt/wechat_article/qianduan/img/" + title + ".jpg");
+            File imageFile = new File("C:\\Users\\Administrator\\Desktop\\我的代码\\wechat_artifacts_qianduan\\img\\" + title + ".jpg");
+//            File imageFile = new File("/opt/wechat_article/qianduan/img/" + title + ".jpg");
             //创建输出流
             FileOutputStream outStream = new FileOutputStream(imageFile);
             //写入数据

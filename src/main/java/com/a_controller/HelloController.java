@@ -23,12 +23,12 @@ public class HelloController {
         PreparedStatement ps = conn.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            String author = rs.getString(2);
-            author = author + ",";
-            resultstr += author;
+            String article_jsonarray = rs.getString("article_jsonarray");
+            article_jsonarray = article_jsonarray + ",";
+            resultstr += article_jsonarray;
         }
         resultstr = resultstr.substring(0, resultstr.length() - 1);
-        System.out.println(resultstr);
+//        System.out.println(resultstr);
         return "[" + resultstr + "]";
 
     }

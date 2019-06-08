@@ -52,7 +52,7 @@ public class WebappWechatApplication {
                 startSplider();
                 System.out.println("等待下一次抓取");
             }
-        }, startdate, 2 * 60 * 60 * 1000);
+        }, startdate, 6 * 60 * 60 * 1000);
     }
 
 }

@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -38,19 +39,21 @@ public class SpliderWechat {
         try {
             conn.setAutoCommit(false);
             String sql = "INSERT INTO jsonarray_data "
-                    + "(id,article_date,article_source,article_jsonarray) "
+                    + "(id,article_date,article_source,article_jsonarray,title) "
                     + "VALUES "
-                    + "(?,?,?,?)";
+                    + "(?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql);
             for (int i = 0; i < needlist.size(); i++) {
                 String id = "1";
                 String article_date = needlist.get(i).getString("datetime");
                 String article_source = datasource;
                 String article_jsonarray = needlist.get(i).getString("jsonarray");
+                String title = needlist.get(i).getString("title");
                 ps.setString(1, id);
                 ps.setString(2, article_date);
                 ps.setString(3, article_source);
                 ps.setString(4, article_jsonarray);
+                ps.setString(5, title);
                 ps.addBatch();
             }
             ps.executeBatch();
@@ -74,7 +77,9 @@ public class SpliderWechat {
         for (int i = 0; i < 3; i++) {
             JSONObject resultjson = new JSONObject();
             JSONObject jsonObject = jsonArray.getJSONObject(i);
+            String title = jsonObject.getJSONObject("app_msg_ext_info").getString("title");
             String datetime = jsonObject.getJSONObject("comm_msg_info").getString("datetime");
+            resultjson.put("title", title);
             resultjson.put("datetime", datetime);
             resultjson.put("jsonarray", jsonObject.toString());
             resultlist.add(resultjson);
@@ -83,8 +88,31 @@ public class SpliderWechat {
 
     }
 
+    public static List<String> getLasttimeArticleTitle() {
+        Connection conn = DBUtil.getConnection();
+        try {
+            String sql = "select title from jsonarray_data";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String title = rs.getString("title");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
 
     public static void resultStrToMysql(String datasource, String htmlstr) {
+        getLasttimeArticleTitle();
         List<JSONObject> infolist = getInfoList(htmlstr);
         listToMysql(datasource, infolist);
     }
@@ -139,11 +167,12 @@ public class SpliderWechat {
         Map<String, String> resultUrl3 = sendGet(trueUrl, null);
         String htmlstr = resultUrl3.get("responseContext");
         String resultStr = "";
-        try {
+        if (htmlstr.contains("为了保护你的网络安全，请输入验证码")) {
+            resultStr = "";
+        } else {
             resultStr = htmlstr.substring(htmlstr.indexOf("var msgList = ") + 22, htmlstr.indexOf("seajs.use") - 11);
-        } catch (StringIndexOutOfBoundsException e) {
-            e.printStackTrace();
         }
+        System.out.println("context：" + resultStr);
         return resultStr;
 
     }
@@ -161,16 +190,16 @@ public class SpliderWechat {
             String result = startThreeTimeAccess(wechatName);
             try {
                 //每次间隔10min
-                Thread.sleep(10 * 60 * 1000);
+                Thread.sleep(5 * 60 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            if ("".equals(result) || result.contains("为了保护你的网络安全，请输入验证码")) {
+            if ("".equals(result)) {
                 System.out.println(wechatName + "抓取失败");
                 continue;
             }
-            resultStrToMysql(String.valueOf(i), result);
+            resultStrToMysql(wechatName, result);
             picToLocal(result);
 
         }
