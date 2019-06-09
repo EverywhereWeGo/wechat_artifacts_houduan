@@ -19,7 +19,7 @@ public class HelloController {
         String resultstr = "";
         Connection conn = DBUtil.getConnection();
         conn.setAutoCommit(false);
-        String sql = "Select * from jsonarray_data";
+        String sql = "Select * from article_info";
         PreparedStatement ps = conn.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {

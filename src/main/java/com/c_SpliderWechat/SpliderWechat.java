@@ -34,10 +34,13 @@ public class SpliderWechat {
         Connection conn = DBUtil.getConnection();
         try {
             Statement deleteStatement = conn.createStatement();
-            deleteStatement.execute("DELETE FROM jsonarray_data WHERE article_source= " + datasource);
+            String deleteSql = "DELETE FROM article_info WHERE article_source= \"" + datasource + "\"";
+            System.out.println(deleteSql);
+            deleteStatement.execute(deleteSql);
+
 
             conn.setAutoCommit(false);
-            String sql = "INSERT INTO jsonarray_data "
+            String sql = "INSERT INTO article_info "
                     + "(id,article_date,article_source,article_jsonarray,title) "
                     + "VALUES "
                     + "(?,?,?,?,?)";
@@ -91,7 +94,7 @@ public class SpliderWechat {
         List<String> alltitles = new LinkedList();
         Connection conn = DBUtil.getConnection();
         try {
-            String sql = "select title from jsonarray_data";
+            String sql = "select title from article_info";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -198,7 +201,7 @@ public class SpliderWechat {
         String cookie = resultUrl4.get("responseCookie");
         try {
             //等待一分钟输入
-            Thread.sleep(1 * 60 * 1000);
+            Thread.sleep(5 * 60 * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -229,9 +232,9 @@ public class SpliderWechat {
 
     public static void startSplider() {
         String wechatNames[] = {
-                "程序员小灰",
                 "码农翻身",
                 "码农有道",
+                "程序员小灰",
                 "网络大数据"
         };
         for (int i = 0; i < wechatNames.length; i++) {
@@ -239,7 +242,7 @@ public class SpliderWechat {
             String result = startThreeTimeAccess(wechatName);
             try {
                 //每次间隔10min
-                Thread.sleep(5 * 60 * 1000);
+                Thread.sleep(5 * 5 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
