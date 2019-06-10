@@ -42,7 +42,7 @@ public class WebappWechatApplication {
         Date startdate = null;
         try {
             sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            startdate = sdf.parse("2019-06-07 08:00:00");
+            startdate = sdf.parse("2019-06-10 08:00:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }

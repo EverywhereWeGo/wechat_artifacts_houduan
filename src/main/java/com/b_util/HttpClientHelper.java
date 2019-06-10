@@ -108,8 +108,8 @@ public class HttpClientHelper {
             httpClient.executeMethod(getMethod);
 
 
-//            File storeFile = new File("C:\\Users\\Administrator\\Desktop\\我的代码\\wechat_artifacts_qianduan\\img\\" + title + ".jpg");
-            File storeFile = new File("/opt/wechat_article/qianduan/img/" + title + ".jpg");
+            File storeFile = new File("C:\\Users\\Administrator\\Desktop\\我的代码\\wechat_artifacts_qianduan\\img\\" + title + ".jpg");
+//            File storeFile = new File("/opt/wechat_article/qianduan/img/" + title + ".jpg");
 
             FileOutputStream output = new FileOutputStream(storeFile);
             //得到网络资源的字节数组,并写入文件

@@ -231,14 +231,18 @@ public class SpliderWechat {
 
 
     public static void startSplider() {
-        String wechatNames[] = {
-                "码农翻身",
-                "码农有道",
-                "程序员小灰",
-                "网络大数据"
-        };
+        Properties prop = new Properties();
+        try {
+//            prop.load(new FileInputStream("/opt/wechat_article/houduan/config.properties"));
+            prop.load(new FileInputStream("C:\\Users\\Administrator\\Desktop\\我的代码\\wechat_artifacts_houtai\\src\\main\\resources\\config.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String all_article = prop.getProperty("all_article");
+        String wechatNames[] = all_article.split(",");
         for (int i = 0; i < wechatNames.length; i++) {
             String wechatName = wechatNames[i];
+            System.out.println(wechatName);
             String result = startThreeTimeAccess(wechatName);
             try {
                 //每次间隔10min
