@@ -201,7 +201,7 @@ public class SpliderWechat {
         String cookie = resultUrl4.get("responseCookie");
         try {
             //等待一分钟输入
-            Thread.sleep(5 * 60 * 1000);
+            Thread.sleep(3 * 60 * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -233,8 +233,8 @@ public class SpliderWechat {
     public static void startSplider() {
         Properties prop = new Properties();
         try {
-//            prop.load(new FileInputStream("/opt/wechat_article/houduan/config.properties"));
-            prop.load(new FileInputStream("C:\\Users\\Administrator\\Desktop\\我的代码\\wechat_artifacts_houtai\\src\\main\\resources\\config.properties"));
+            prop.load(new FileInputStream("/opt/wechat_article/houduan/config.properties"));
+//            prop.load(new FileInputStream("C:\\Users\\Administrator\\Desktop\\我的代码\\wechat_artifacts_houtai\\src\\main\\resources\\config.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -246,7 +246,7 @@ public class SpliderWechat {
             String result = startThreeTimeAccess(wechatName);
             try {
                 //每次间隔10min
-                Thread.sleep(5 * 5 * 1000);
+                Thread.sleep(6 * 5 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

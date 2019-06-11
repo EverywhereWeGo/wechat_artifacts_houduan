@@ -6,6 +6,7 @@ import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HttpClientHelper {
-
+//    public static Logger logger = Logger.getLogger(HttpClientHelper.class.getName());
     public static String sendPost(String urlParam, Map<String, String> requestHeaders, Map<String, String> params) {
         // 创建httpClient实例对象
         HttpClient httpClient = new HttpClient();
@@ -90,7 +91,6 @@ public class HttpClientHelper {
     }
 
     public static Map<String, String> sendGetToGetPicture(String url, Map<String, String> requestHeaders, String title) {
-
         Map<String, String> responseMap = new HashMap<String, String>();
         // 创建httpClient实例对象
         HttpClient httpClient = new HttpClient();
@@ -107,9 +107,8 @@ public class HttpClientHelper {
             httpClient.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
             httpClient.executeMethod(getMethod);
 
-
-            File storeFile = new File("C:\\Users\\Administrator\\Desktop\\我的代码\\wechat_artifacts_qianduan\\img\\" + title + ".jpg");
-//            File storeFile = new File("/opt/wechat_article/qianduan/img/" + title + ".jpg");
+//            File storeFile = new File("C:\\Users\\Administrator\\Desktop\\我的代码\\wechat_artifacts_qianduan\\img\\" + title + ".jpg");
+            File storeFile = new File("/opt/wechat_article/qianduan/img/" + title + ".jpg");
 
             FileOutputStream output = new FileOutputStream(storeFile);
             //得到网络资源的字节数组,并写入文件
@@ -128,7 +127,7 @@ public class HttpClientHelper {
             String result = getMethod.getResponseBodyAsString();
             responseMap.put("responseCookie", cookiestr);
             responseMap.put("responseContext", result);
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             e.printStackTrace();
         }
 
