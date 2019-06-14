@@ -170,6 +170,15 @@ public class SpliderWechat {
 
         //第三次访问真正的url
         Map<String, String> resultUrl3 = sendGet(trueUrl, null);
+        while (null == resultUrl3) {
+            try {
+                //等待一分钟输入
+                Thread.sleep(5 * 60 * 1000);
+                resultUrl3 = sendGet(trueUrl, null);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         String htmlstr = resultUrl3.get("responseContext");
         String resultStr = "";
         if (htmlstr.contains("为了保护你的网络安全，请输入验证码")) {

@@ -6,7 +6,6 @@ import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
-import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HttpClientHelper {
-//    public static Logger logger = Logger.getLogger(HttpClientHelper.class.getName());
+    //    public static Logger logger = Logger.getLogger(HttpClientHelper.class.getName());
     public static String sendPost(String urlParam, Map<String, String> requestHeaders, Map<String, String> params) {
         // 创建httpClient实例对象
         HttpClient httpClient = new HttpClient();
@@ -83,6 +82,7 @@ public class HttpClientHelper {
             responseMap.put("responseContext", result);
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
 
         getMethod.releaseConnection();
