@@ -153,7 +153,7 @@ public class SpliderWechat {
             linkUrl = linkUrl + "&k=" + b + "&h=" + check;
         }
         linkUrl = "https://weixin.sogou.com" + linkUrl;
-        System.out.println("linkUrl：" + linkUrl);
+        System.out.println("linkUrl:" + linkUrl);
         String cookie = resultUrl1.get("responseCookie");
         requestHeaders.put("Cookie", cookie);
         requestHeaders.put("Referer", url1);

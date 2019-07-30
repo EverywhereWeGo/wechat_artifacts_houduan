@@ -378,10 +378,10 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>WebappWechatApplication</mainClass>
+                            <mainClass>com.WebappWechatApplication</mainClass>
                         </manifest>
                         <manifestEntries>
-                            <Class-Path>./</Class-Path>
+                            <Class-Path>config/</Class-Path>
                         </manifestEntries>
                     </archive>
                 </configuration>
