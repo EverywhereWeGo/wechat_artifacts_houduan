@@ -247,8 +247,7 @@ public class SpliderWechat {
         for (int i = 0; i < wechatNames.length; i++) {
             String wechatName = wechatNames[i];
             System.out.println(wechatName);
-//            String result = startThreeTimeAccess(wechatName);
-            String result = "";
+            String result = startThreeTimeAccess(wechatName);
             try {
                 //每次间隔10min
                 Thread.sleep(6 * 5 * 1000);
@@ -260,8 +259,8 @@ public class SpliderWechat {
                 System.out.println(wechatName + "抓取失败");
                 continue;
             }
-//            resultStrToMysql(wechatName, result);
-//            picToLocal(result);
+            resultStrToMysql(wechatName, result);
+            picToLocal(result);
         }
     }
 
@@ -269,6 +268,4 @@ public class SpliderWechat {
     public static void main(String args[]) {
         startSplider();
     }
-
-
 }
