@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.*;
 
 import static com.b_util.HttpClientHelper.*;
+import static com.b_util.PropertiesLoadUtil.loadProperties;
 
 public class SpliderWechat {
     public static void picToLocal(String result) {
@@ -46,12 +47,12 @@ public class SpliderWechat {
                     + "(?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql);
             for (int i = 0; i < needlist.size(); i++) {
-                String id = "1";
+                int id = i;
                 String article_date = needlist.get(i).getString("datetime");
                 String article_source = datasource;
                 String article_jsonarray = needlist.get(i).getString("jsonarray");
                 String title = needlist.get(i).getString("title");
-                ps.setString(1, id);
+                ps.setString(1, String.valueOf(id));
                 ps.setString(2, article_date);
                 ps.setString(3, article_source);
                 ps.setString(4, article_jsonarray);
@@ -172,7 +173,7 @@ public class SpliderWechat {
         Map<String, String> resultUrl3 = sendGet(trueUrl, null);
         while (null == resultUrl3) {
             try {
-                //等待一分钟输入
+                //访问异常，等待五分钟在访问
                 Thread.sleep(5 * 60 * 1000);
                 resultUrl3 = sendGet(trueUrl, null);
             } catch (InterruptedException e) {
@@ -209,7 +210,7 @@ public class SpliderWechat {
         Map<String, String> resultUrl4 = sendGetToGetPicture(url, requestHeaders, "yanzhenma");
         String cookie = resultUrl4.get("responseCookie");
         try {
-            //等待一分钟输入
+            //等待3分钟手工输入
             Thread.sleep(3 * 60 * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -240,13 +241,7 @@ public class SpliderWechat {
 
 
     public static void startSplider() {
-        Properties prop = new Properties();
-        try {
-            prop.load(new FileInputStream("/opt/wechat_article/houduan/config.properties"));
-//            prop.load(new FileInputStream("C:\\Users\\Administrator\\Desktop\\我的代码\\wechat_artifacts_houtai\\src\\main\\resources\\config.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Properties prop = loadProperties("config.properties");
         String all_article = prop.getProperty("all_article");
         String wechatNames[] = all_article.split(",");
         for (int i = 0; i < wechatNames.length; i++) {
@@ -266,7 +261,13 @@ public class SpliderWechat {
             }
             resultStrToMysql(wechatName, result);
             picToLocal(result);
-
         }
     }
+
+//
+//    public static void main(String args[]) {
+//        startSplider();
+//    }
+
+
 }

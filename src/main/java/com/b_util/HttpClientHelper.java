@@ -90,6 +90,7 @@ public class HttpClientHelper {
         return responseMap;
     }
 
+    //发送get请求获取图片
     public static Map<String, String> sendGetToGetPicture(String url, Map<String, String> requestHeaders, String title) {
         Map<String, String> responseMap = new HashMap<String, String>();
         // 创建httpClient实例对象

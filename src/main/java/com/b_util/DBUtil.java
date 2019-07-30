@@ -1,10 +1,11 @@
 package com.b_util;
 
-import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import static com.b_util.PropertiesLoadUtil.loadProperties;
 
 public class DBUtil {
     private static String driverclass;
@@ -14,9 +15,7 @@ public class DBUtil {
 
     static {
         try {
-            Properties prop = new Properties();
-//            prop.load(new FileInputStream("C:\\Users\\Administrator\\Desktop\\我的代码\\wechat_artifacts_houtai\\src\\main\\resources\\config.properties"));
-            prop.load(new FileInputStream("/opt/wechat_article/houduan/config.properties"));
+            Properties prop = loadProperties("config.properties");
             driverclass = prop.getProperty("driverclass");
             url = prop.getProperty("url");
             username = prop.getProperty("username");
