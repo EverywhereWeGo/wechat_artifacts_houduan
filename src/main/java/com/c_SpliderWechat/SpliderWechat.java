@@ -3,7 +3,7 @@ package com.c_SpliderWechat;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.b_util.DBUtil;
+import com.b_util.basicUtil.a_DBUtil;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.*;
 
 import static com.b_util.HttpClientHelper.*;
-import static com.b_util.PropertiesLoadUtil.loadProperties;
+import static com.b_util.basicUtil.b_PropertiesLoadUtil.loadProperties;
 
 public class SpliderWechat {
     public static void picToLocal(String result) {
@@ -32,7 +32,7 @@ public class SpliderWechat {
 
 
     public static void listToMysql(String datasource, List<JSONObject> needlist) {
-        Connection conn = DBUtil.getConnection();
+        Connection conn = a_DBUtil.getConnection();
         try {
             Statement deleteStatement = conn.createStatement();
             String deleteSql = "DELETE FROM article_info WHERE article_source= \"" + datasource + "\"";
@@ -93,7 +93,7 @@ public class SpliderWechat {
 
     public static List<String> getLasttimeArticleTitle() {
         List<String> alltitles = new LinkedList();
-        Connection conn = DBUtil.getConnection();
+        Connection conn = a_DBUtil.getConnection();
         try {
             String sql = "select title from article_info";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -247,7 +247,8 @@ public class SpliderWechat {
         for (int i = 0; i < wechatNames.length; i++) {
             String wechatName = wechatNames[i];
             System.out.println(wechatName);
-            String result = startThreeTimeAccess(wechatName);
+//            String result = startThreeTimeAccess(wechatName);
+            String result = "";
             try {
                 //每次间隔10min
                 Thread.sleep(6 * 5 * 1000);
@@ -259,15 +260,15 @@ public class SpliderWechat {
                 System.out.println(wechatName + "抓取失败");
                 continue;
             }
-            resultStrToMysql(wechatName, result);
-            picToLocal(result);
+//            resultStrToMysql(wechatName, result);
+//            picToLocal(result);
         }
     }
 
-//
-//    public static void main(String args[]) {
-//        startSplider();
-//    }
+
+    public static void main(String args[]) {
+        startSplider();
+    }
 
 
 }

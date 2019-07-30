@@ -45,19 +45,19 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.58</version>
         </dependency>
 
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.16</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
@@ -69,239 +69,35 @@
             <artifactId>commons-httpclient</artifactId>
             <version>3.1</version>
         </dependency>
-        <!--&lt;!&ndash;selenium-java2.53.1所有依赖开始&ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>org.seleniumhq.selenium</groupId>-->
-        <!--<artifactId>selenium-java</artifactId>-->
-        <!--<version>2.53.1</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.seleniumhq.selenium</groupId>-->
-        <!--<artifactId>selenium-chrome-driver</artifactId>-->
-        <!--<version>2.53.1</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.seleniumhq.selenium</groupId>-->
-        <!--<artifactId>selenium-remote-driver</artifactId>-->
-        <!--<version>2.53.1</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>cglib</groupId>-->
-        <!--<artifactId>cglib-nodep</artifactId>-->
-        <!--<version>2.1_3</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>com.google.code.gson</groupId>-->
-        <!--<artifactId>gson</artifactId>-->
-        <!--<version>2.6.2</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.seleniumhq.selenium</groupId>-->
-        <!--<artifactId>selenium-api</artifactId>-->
-        <!--<version>2.53.1</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.apache.httpcomponents</groupId>-->
-        <!--<artifactId>httpclient</artifactId>-->
-        <!--<version>4.5.1</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.apache.httpcomponents</groupId>-->
-        <!--<artifactId>httpcore</artifactId>-->
-        <!--<version>4.4.3</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>com.google.guava</groupId>-->
-        <!--<artifactId>guava</artifactId>-->
-        <!--<version>19.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.seleniumhq.selenium</groupId>-->
-        <!--<artifactId>selenium-edge-driver</artifactId>-->
-        <!--<version>2.53.1</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>commons-io</groupId>-->
-        <!--<artifactId>commons-io</artifactId>-->
-        <!--<version>2.4</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.apache.commons</groupId>-->
-        <!--<artifactId>commons-exec</artifactId>-->
-        <!--<version>1.3</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.seleniumhq.selenium</groupId>-->
-        <!--<artifactId>htmlunit-driver</artifactId>-->
-        <!--<version>2.21</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>net.sourceforge.htmlunit</groupId>-->
-        <!--<artifactId>htmlunit</artifactId>-->
-        <!--<version>2.21</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>xalan</groupId>-->
-        <!--<artifactId>xalan</artifactId>-->
-        <!--<version>2.7.2</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>xalan</groupId>-->
-        <!--<artifactId>serializer</artifactId>-->
-        <!--<version>2.7.2</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.apache.commons</groupId>-->
-        <!--<artifactId>commons-lang3</artifactId>-->
-        <!--<version>3.4</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.apache.httpcomponents</groupId>-->
-        <!--<artifactId>httpmime</artifactId>-->
-        <!--<version>4.5.2</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>commons-codec</groupId>-->
-        <!--<artifactId>commons-codec</artifactId>-->
-        <!--<version>1.10</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>net.sourceforge.htmlunit</groupId>-->
-        <!--<artifactId>htmlunit-core-js</artifactId>-->
-        <!--<version>2.17</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>net.sourceforge.htmlunit</groupId>-->
-        <!--<artifactId>neko-htmlunit</artifactId>-->
-        <!--<version>2.21</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>xerces</groupId>-->
-        <!--<artifactId>xercesImpl</artifactId>-->
-        <!--<version>2.11.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>xml-apis</groupId>-->
-        <!--<artifactId>xml-apis</artifactId>-->
-        <!--<version>1.4.01</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>net.sourceforge.cssparser</groupId>-->
-        <!--<artifactId>cssparser</artifactId>-->
-        <!--<version>0.9.18</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.w3c.css</groupId>-->
-        <!--<artifactId>sac</artifactId>-->
-        <!--<version>1.3</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>commons-logging</groupId>-->
-        <!--<artifactId>commons-logging</artifactId>-->
-        <!--<version>1.2</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.eclipse.jetty.websocket</groupId>-->
-        <!--<artifactId>websocket-client</artifactId>-->
-        <!--<version>9.2.15.v20160210</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.eclipse.jetty</groupId>-->
-        <!--<artifactId>jetty-util</artifactId>-->
-        <!--<version>9.2.15.v20160210</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.eclipse.jetty</groupId>-->
-        <!--<artifactId>jetty-io</artifactId>-->
-        <!--<version>9.2.15.v20160210</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.eclipse.jetty.websocket</groupId>-->
-        <!--<artifactId>websocket-common</artifactId>-->
-        <!--<version>9.2.15.v20160210</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.eclipse.jetty.websocket</groupId>-->
-        <!--<artifactId>websocket-api</artifactId>-->
-        <!--<version>9.2.15.v20160210</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>commons-collections</groupId>-->
-        <!--<artifactId>commons-collections</artifactId>-->
-        <!--<version>3.2.2</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.seleniumhq.selenium</groupId>-->
-        <!--<artifactId>selenium-firefox-driver</artifactId>-->
-        <!--<version>2.53.1</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.seleniumhq.selenium</groupId>-->
-        <!--<artifactId>selenium-ie-driver</artifactId>-->
-        <!--<version>2.53.1</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>net.java.dev.jna</groupId>-->
-        <!--<artifactId>jna</artifactId>-->
-        <!--<version>4.1.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>net.java.dev.jna</groupId>-->
-        <!--<artifactId>jna-platform</artifactId>-->
-        <!--<version>4.1.0</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.seleniumhq.selenium</groupId>-->
-        <!--<artifactId>selenium-safari-driver</artifactId>-->
-        <!--<version>2.53.1</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>io.netty</groupId>-->
-        <!--<artifactId>netty</artifactId>-->
-        <!--<version>3.5.7.Final</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.seleniumhq.selenium</groupId>-->
-        <!--<artifactId>selenium-support</artifactId>-->
-        <!--<version>2.53.1</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--<groupId>org.seleniumhq.selenium</groupId>-->
-        <!--<artifactId>selenium-leg-rc</artifactId>-->
-        <!--<version>2.53.1</version>-->
-        <!--</dependency>-->
-        <!--&lt;!&ndash;selenium-java2.53.1所有依赖结束&ndash;&gt;-->
-
 
     </dependencies>
-    <!--<build>-->
-    <!--<plugins>-->
-    <!--<plugin>-->
-    <!--<groupId>org.springframework.boot</groupId>-->
-    <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-    <!--</plugin>-->
-    <!--<plugin>-->
-    <!--<groupId>org.apache.maven.plugins</groupId>-->
-    <!--<artifactId>maven-compiler-plugin</artifactId>-->
-    <!--<configuration>-->
-    <!--<source></source>-->
-    <!--<target></target>-->
-    <!--</configuration>-->
-    <!--</plugin>-->
-    <!--</plugins>-->
-    <!--</build>-->
-
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
+        <!--maven-resources-plugin 插件打包resource文件时会参考此节点的配置-->
+        <!--这两个resource节点负责把配置文件拷贝到classes目录下，保证运行时可以找到配置文件-->
         <resources>
             <resource>
+                <!--开启filter功能，将路径中的属性名替换为对应的属性值-->
+                <filtering>true</filtering>
                 <directory>src/main/resources</directory>
-                <targetPath>${project.build.directory}</targetPath>
+                <includes>
+                    <include>**/application*.yml</include>
+                    <include>**/application*.yaml</include>
+                    <include>**/application*.properties</include>
+                </includes>
+            </resource>
+
+            <resource>
+                <directory>src/main/resources</directory>
                 <excludes>
-                    <exclude>**/*.java</exclude>
+                    <exclude>**/application*.yml</exclude>
+                    <exclude>**/application*.yaml</exclude>
+                    <exclude>**/application*.properties</exclude>
                 </excludes>
             </resource>
+
         </resources>
+
         <testSourceDirectory>src/test/java</testSourceDirectory>
         <testResources>
             <testResource>
@@ -313,35 +109,6 @@
             </testResource>
         </testResources>
 
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-dependency-plugin</artifactId>
-                                        <versionRange>[2.0,)</versionRange>
-                                        <goals>
-                                            <goal>copy-dependencies</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore/>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -352,38 +119,36 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-            <!--&lt;!&ndash; 打包源码一起发布到maven仓库中 &ndash;&gt;-->
-            <!--<plugin>-->
-            <!--<artifactId>maven-source-plugin</artifactId>-->
-            <!--<version>2.1</version>-->
-            <!--<configuration>-->
-            <!--<attach>true</attach>-->
-            <!--</configuration>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<phase>compile</phase>-->
-            <!--<goals>-->
-            <!--<goal>jar</goal>-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
 
-            <!-- 生成可执行JAR包命令 maven-jar-plugin -->
+            <!-- 生成可执行JAR包命令maven-jar-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
+                        <!-- 生成的jar中，不要包含pom.xml和pom.properties这两个文件 -->
+                        <addMavenDescriptor>false</addMavenDescriptor>
                         <manifest>
+                            <!-- 是否要把第三方jar放到manifest的classpath中 -->
                             <addClasspath>true</addClasspath>
+                            <!-- 生成的manifest中classpath的前缀，因为要把第三方jar放到lib目录下，所以classpath的前缀是lib/ -->
                             <classpathPrefix>lib/</classpathPrefix>
+                            <!-- 应用的main class -->
                             <mainClass>com.WebappWechatApplication</mainClass>
                         </manifest>
                         <manifestEntries>
+                            <!--将资源文件目录添加到classpath中，打包后运行项目时则会在该目录下加载配置文件-->
                             <Class-Path>config/</Class-Path>
                         </manifestEntries>
                     </archive>
+                    <!--项目打包为jar包时排除这些文件，如果将配置文件打到jar包，则会优先读取jar包中的配置文件，不会读取conf目录下的配置文件-->
+                    <!--注意这玩意从编译结果目录开始算目录结构-->
+                    <excludes>
+                        <exclude>/*.yaml</exclude>
+                        <exclude>/*.yml</exclude>
+                        <exclude>/*.xml</exclude>
+                        <exclude>/*.properties</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
 
@@ -399,20 +164,39 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>
-                                ${project.build.directory}/lib
-                            </outputDirectory>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <!-- 生成可执行JAR包命令 maven-jar-plugin end -->
-            <!-- 生成可执行JAR包命令 maven-shade-plugin <plugin> <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId> <version>1.2.1</version> <executions>
-                    <execution> <phase>package</phase> <goals> <goal>shade</goal> </goals> <configuration>
-                    <transformers> <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                    <mainClass>***.Application ***</mainClass> </transformer>
-                    </transformers> </configuration> </execution> </executions> </plugin> -->
+            <!-- 拷贝配置文件到config目录 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-spring-boot-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/config
+                            </outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/main/resources/</directory>
+                                    <includes>
+                                        <include>*.*</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

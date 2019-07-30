@@ -1,13 +1,13 @@
-package com.b_util;
+package com.b_util.basicUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class PropertiesLoadUtil {
+public class b_PropertiesLoadUtil {
     public static Properties loadProperties(String fileName) {
         Properties prop = new Properties();
-        InputStream in = PropertiesLoadUtil.class.getClassLoader().getResourceAsStream(fileName);
+        InputStream in = b_PropertiesLoadUtil.class.getClassLoader().getResourceAsStream(fileName);
         try {
             prop.load(in);
         } catch (IOException e) {

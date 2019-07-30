@@ -1,13 +1,13 @@
-package com.b_util;
+package com.b_util.basicUtil;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import static com.b_util.PropertiesLoadUtil.loadProperties;
+import static com.b_util.basicUtil.b_PropertiesLoadUtil.loadProperties;
 
-public class DBUtil {
+public class a_DBUtil {
     private static String driverclass;
     private static String url;
     private static String username;
@@ -49,13 +49,4 @@ public class DBUtil {
             e.printStackTrace();
         }
     }
-
-
-    public static void main(String args[]) {
-        Connection c = DBUtil.getConnection();
-        DBUtil.closeConnection(c);
-
-
-    }
-
 }
