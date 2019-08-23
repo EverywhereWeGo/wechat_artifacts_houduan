@@ -4,6 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.b_util.basicUtil.a_DBUtil;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -141,10 +145,20 @@ public class SpliderWechat {
         //第一次访问获取cookie以及url
         Map<String, String> resultUrl1 = sendGet(url1, requestHeaders);
         String responseContext = resultUrl1.get("responseContext");
-        String begstr = "<a target=\"_blank\" uigs=\"account_name_0\" href=\"";
-        String endstr = "\"><em><!--red_beg-->" + urlname + "<!--red_end--></em></a>";
-        String linkUrl = responseContext.substring(responseContext.indexOf(begstr) + begstr.length(), responseContext.indexOf(endstr)).replace("&amp;", "&");
-        //这一段由前端js得出，做了验证，拼接了url
+        String cookie = resultUrl1.get("responseCookie");
+        System.out.println("responseContext:" + responseContext);
+        System.out.println(cookie);
+        String linkUrl = "";
+        Document doc = Jsoup.parse(responseContext);
+        Element ele = doc.getElementById("sogou_vr_11002301_box_0");
+        Elements eles = ele.getElementsByAttributeValue("uigs", "account_image_0");
+        for (Element e : eles) {
+            linkUrl = e.attr("href");
+            System.out.println(linkUrl);
+        }
+        linkUrl = linkUrl.replace("&amp;", "&");
+        System.out.println("linkUrl:" + linkUrl);
+
         int a = linkUrl.indexOf("url=");
         int c = linkUrl.indexOf("&k=");
         int b = (int) Math.random() * 100;
@@ -152,47 +166,52 @@ public class SpliderWechat {
             String check = linkUrl.substring(a + 4 + 26 + b, a + 4 + 26 + b + 1);
             linkUrl = linkUrl + "&k=" + b + "&h=" + check;
         }
+
         linkUrl = "https://weixin.sogou.com" + linkUrl;
         System.out.println("linkUrl:" + linkUrl);
-        String cookie = resultUrl1.get("responseCookie");
+
         requestHeaders.put("Cookie", cookie);
         requestHeaders.put("Referer", url1);
 
-
-        //第二次带cookie访问
-        Map<String, String> resultUrl2 = sendGet(linkUrl, requestHeaders);
-        String spliturlr = resultUrl2.get("responseContext");
-        String trueUrl = "";
-        String[] spsstr = spliturlr.split(";");
-        for (int i = 1; i < spsstr.length - 2; i++) {
-            trueUrl = trueUrl + spsstr[i].substring(spsstr[i].indexOf("'") + 1, spsstr[i].lastIndexOf("'"));
-        }
-        System.out.println("trueUrl:" + trueUrl);
-
-        //第三次访问真正的url
-        Map<String, String> resultUrl3 = sendGet(trueUrl, null);
-        while (null == resultUrl3) {
-            try {
-                //访问异常，等待五分钟在访问
-                Thread.sleep(5 * 60 * 1000);
-                resultUrl3 = sendGet(trueUrl, null);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        String htmlstr = resultUrl3.get("responseContext");
-        String resultStr = "";
-        if (htmlstr.contains("为了保护你的网络安全，请输入验证码")) {
-            inputVerificationCode();
-            //输入验证码之后再次访问
-            resultUrl3 = sendGet(trueUrl, null);
-            htmlstr = resultUrl3.get("responseContext");
-            resultStr = htmlstr.substring(htmlstr.indexOf("var msgList = ") + 22, htmlstr.indexOf("seajs.use") - 11);
-        } else {
-            resultStr = htmlstr.substring(htmlstr.indexOf("var msgList = ") + 22, htmlstr.indexOf("seajs.use") - 11);
-        }
-        return resultStr;
-
+//        for (int i = 0; i < 3; i++) {
+//
+//
+//            //第二次带cookie访问
+//            Map<String, String> resultUrl2 = sendGet(linkUrl, requestHeaders);
+//            String spliturlr = resultUrl2.get("responseContext");
+//            System.out.println(spliturlr);
+//        }
+//        String trueUrl = "";
+//        String[] spsstr = spliturlr.split(";");
+//        for (int i = 1; i < spsstr.length - 2; i++) {
+//            trueUrl = trueUrl + spsstr[i].substring(spsstr[i].indexOf("'") + 1, spsstr[i].lastIndexOf("'"));
+//        }
+//        System.out.println("trueUrl:" + trueUrl);
+//
+//        //第三次访问真正的url
+//        Map<String, String> resultUrl3 = sendGet(trueUrl, null);
+//        while (null == resultUrl3) {
+//            try {
+//                //访问异常，等待五分钟在访问
+//                Thread.sleep(5 * 60 * 1000);
+//                resultUrl3 = sendGet(trueUrl, null);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        String htmlstr = resultUrl3.get("responseContext");
+//        String resultStr = "";
+//        if (htmlstr.contains("为了保护你的网络安全，请输入验证码")) {
+//            inputVerificationCode();
+//            //输入验证码之后再次访问
+//            resultUrl3 = sendGet(trueUrl, null);
+//            htmlstr = resultUrl3.get("responseContext");
+//            resultStr = htmlstr.substring(htmlstr.indexOf("var msgList = ") + 22, htmlstr.indexOf("seajs.use") - 11);
+//        } else {
+//            resultStr = htmlstr.substring(htmlstr.indexOf("var msgList = ") + 22, htmlstr.indexOf("seajs.use") - 11);
+//        }
+//        return resultStr;
+        return null;
     }
 
     public static void inputVerificationCode() {
