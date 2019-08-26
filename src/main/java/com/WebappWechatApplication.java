@@ -1,5 +1,6 @@
 package com;
 
+import com.c_SpliderWechat.SpliderWechat;
 import com.filter.CorsFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +14,6 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.c_SpliderWechat.SpliderWechat.startSplider;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -38,6 +38,7 @@ public class WebappWechatApplication {
     }
 
     public static void timer() {
+        SpliderWechat sw = new SpliderWechat();
         SimpleDateFormat sdf = null;
         Date startdate = null;
         try {
@@ -49,7 +50,7 @@ public class WebappWechatApplication {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                startSplider();
+                sw.startSplider();
                 System.out.println("等待下一次抓取");
             }
         }, startdate, 6 * 60 * 60 * 1000);

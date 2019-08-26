@@ -21,7 +21,7 @@ import static com.b_util.HttpClientHelper.*;
 import static com.b_util.basicUtil.b_PropertiesLoadUtil.loadProperties;
 
 public class SpliderWechat {
-    public static void picToLocal(String result) {
+    public void picToLocal(String result) {
         JSONArray jsonArray = JSON.parseArray(result);
         for (int j = 0; j < jsonArray.size(); j++) {
             String cover = jsonArray.getJSONObject(j).getJSONObject("app_msg_ext_info").getString("cover");
@@ -35,7 +35,7 @@ public class SpliderWechat {
     }
 
 
-    public static void listToMysql(String datasource, List<JSONObject> needlist) {
+    public void listToMysql(String datasource, JSONObject result) {
         Connection conn = a_DBUtil.getConnection();
         try {
             Statement deleteStatement = conn.createStatement();
@@ -43,26 +43,16 @@ public class SpliderWechat {
             System.out.println(deleteSql);
             deleteStatement.execute(deleteSql);
 
-
             conn.setAutoCommit(false);
             String sql = "INSERT INTO article_info "
-                    + "(id,article_date,article_source,article_jsonarray,title) "
+                    + "(title,article_jsonarray,article_source) "
                     + "VALUES "
                     + "(?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql);
-            for (int i = 0; i < needlist.size(); i++) {
-                int id = i;
-                String article_date = needlist.get(i).getString("datetime");
-                String article_source = datasource;
-                String article_jsonarray = needlist.get(i).getString("jsonarray");
-                String title = needlist.get(i).getString("title");
-                ps.setString(1, String.valueOf(id));
-                ps.setString(2, article_date);
-                ps.setString(3, article_source);
-                ps.setString(4, article_jsonarray);
-                ps.setString(5, title);
-                ps.addBatch();
-            }
+            ps.setString(1, result.getString("article"));
+            ps.setString(2, result.getString("trueUrl"));
+            ps.setString(3, result.getString(datasource));
+            ps.addBatch();
             ps.executeBatch();
             conn.commit();
         } catch (SQLException e) {
@@ -78,7 +68,7 @@ public class SpliderWechat {
         System.out.println("入库完毕");
     }
 
-    public static List<JSONObject> getInfoList(String msgList) {
+    public List<JSONObject> getInfoList(String msgList) {
         List<JSONObject> resultlist = new LinkedList<JSONObject>();
         JSONArray jsonArray = JSON.parseArray(msgList);
         for (int i = 0; i < 3; i++) {
@@ -95,7 +85,7 @@ public class SpliderWechat {
 
     }
 
-    public static List<String> getLasttimeArticleTitle() {
+    public List<String> getLasttimeArticleTitle() {
         List<String> alltitles = new LinkedList();
         Connection conn = a_DBUtil.getConnection();
         try {
@@ -118,100 +108,6 @@ public class SpliderWechat {
             }
         }
         return alltitles;
-    }
-
-
-    public static void resultStrToMysql(String datasource, String htmlstr) {
-//        List<String> alltitles = getLasttimeArticleTitle();
-        List<JSONObject> infolist = getInfoList(htmlstr);
-        listToMysql(datasource, infolist);
-    }
-
-    public static String startThreeTimeAccess(String urlname) {
-        String urls = null;
-        try {
-            urls = URLEncoder.encode(urlname, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        String url1 = "https://weixin.sogou.com/weixin?type=1&s_from=input&query=" + urls;
-        Map<String, String> requestHeaders = new HashMap<String, String>();
-        requestHeaders.put("Connection", "keep-alive");
-        requestHeaders.put("Host", "weixin.sogou.com");
-        requestHeaders.put("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8");
-        requestHeaders.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
-        requestHeaders.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
-
-        //第一次访问获取cookie以及url
-        Map<String, String> resultUrl1 = sendGet(url1, requestHeaders);
-        String responseContext = resultUrl1.get("responseContext");
-        String cookie = resultUrl1.get("responseCookie");
-        System.out.println("responseContext:" + responseContext);
-        System.out.println(cookie);
-        String linkUrl = "";
-        Document doc = Jsoup.parse(responseContext);
-        Element ele = doc.getElementById("sogou_vr_11002301_box_0");
-        Elements eles = ele.getElementsByAttributeValue("uigs", "account_image_0");
-        for (Element e : eles) {
-            linkUrl = e.attr("href");
-            System.out.println(linkUrl);
-        }
-        linkUrl = linkUrl.replace("&amp;", "&");
-        System.out.println("linkUrl:" + linkUrl);
-
-        int a = linkUrl.indexOf("url=");
-        int c = linkUrl.indexOf("&k=");
-        int b = (int) Math.random() * 100;
-        if (-1 != a && -1 == c) {
-            String check = linkUrl.substring(a + 4 + 26 + b, a + 4 + 26 + b + 1);
-            linkUrl = linkUrl + "&k=" + b + "&h=" + check;
-        }
-
-        linkUrl = "https://weixin.sogou.com" + linkUrl;
-        System.out.println("linkUrl:" + linkUrl);
-
-        requestHeaders.put("Cookie", cookie);
-        requestHeaders.put("Referer", url1);
-
-//        for (int i = 0; i < 3; i++) {
-//
-//
-//            //第二次带cookie访问
-//            Map<String, String> resultUrl2 = sendGet(linkUrl, requestHeaders);
-//            String spliturlr = resultUrl2.get("responseContext");
-//            System.out.println(spliturlr);
-//        }
-//        String trueUrl = "";
-//        String[] spsstr = spliturlr.split(";");
-//        for (int i = 1; i < spsstr.length - 2; i++) {
-//            trueUrl = trueUrl + spsstr[i].substring(spsstr[i].indexOf("'") + 1, spsstr[i].lastIndexOf("'"));
-//        }
-//        System.out.println("trueUrl:" + trueUrl);
-//
-//        //第三次访问真正的url
-//        Map<String, String> resultUrl3 = sendGet(trueUrl, null);
-//        while (null == resultUrl3) {
-//            try {
-//                //访问异常，等待五分钟在访问
-//                Thread.sleep(5 * 60 * 1000);
-//                resultUrl3 = sendGet(trueUrl, null);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        String htmlstr = resultUrl3.get("responseContext");
-//        String resultStr = "";
-//        if (htmlstr.contains("为了保护你的网络安全，请输入验证码")) {
-//            inputVerificationCode();
-//            //输入验证码之后再次访问
-//            resultUrl3 = sendGet(trueUrl, null);
-//            htmlstr = resultUrl3.get("responseContext");
-//            resultStr = htmlstr.substring(htmlstr.indexOf("var msgList = ") + 22, htmlstr.indexOf("seajs.use") - 11);
-//        } else {
-//            resultStr = htmlstr.substring(htmlstr.indexOf("var msgList = ") + 22, htmlstr.indexOf("seajs.use") - 11);
-//        }
-//        return resultStr;
-        return null;
     }
 
     public static void inputVerificationCode() {
@@ -259,32 +155,96 @@ public class SpliderWechat {
     }
 
 
-    public static void startSplider() {
+    public void resultStrToMysql(String datasource, JSONObject htmlstr) {
+        listToMysql(datasource, htmlstr);
+    }
+
+    public JSONObject startThreeTimeAccess(String urlname) {
+        String urls = null;
+        try {
+            urls = URLEncoder.encode(urlname, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String url1 = "https://weixin.sogou.com/weixin?type=1&s_from=input&query=" + urls;
+        Map<String, String> requestHeaders = new HashMap<String, String>();
+        requestHeaders.put("Connection", "keep-alive");
+        requestHeaders.put("Host", "weixin.sogou.com");
+        requestHeaders.put("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8");
+        requestHeaders.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
+        requestHeaders.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
+
+        //第一次访问获取cookie以及url
+        Map<String, String> resultUrl1 = sendGet(url1, requestHeaders);
+        String responseContext = resultUrl1.get("responseContext");
+        String cookie = resultUrl1.get("responseCookie");
+//        System.out.println("responseContext:" + responseContext);
+//        System.out.println(cookie);
+
+        Document doc = Jsoup.parse(responseContext);
+        Element ele = doc.getElementById("sogou_vr_11002301_box_0");
+        Elements eles = ele.getElementsByTag("a");
+        String linkUrl = eles.last().attr("href");
+        String article = eles.last().text();
+        linkUrl = linkUrl.replace("&amp;", "&");
+//        System.out.println("article:" + article);
+//        System.out.println("linkUrl:" + linkUrl);
+
+        int a = linkUrl.indexOf("url=");
+        int c = linkUrl.indexOf("&k=");
+        int b = (int) Math.random() * 100;
+        if (-1 != a && -1 == c) {
+            String check = linkUrl.substring(a + 4 + 21 + b, a + 4 + 21 + b + 1);
+            linkUrl = linkUrl + "&k=" + b + "&h=" + check;
+        }
+        linkUrl = "https://weixin.sogou.com" + linkUrl;
+//        System.out.println("linkUrl:" + linkUrl);
+
+        requestHeaders.put("Cookie", cookie);
+        requestHeaders.put("Referer", url1);
+
+        //第二次带cookie访问
+        Map<String, String> resultUrl2 = sendGet(linkUrl, requestHeaders);
+        String spliturlr = resultUrl2.get("responseContext");
+//        System.out.println(spliturlr);
+        String trueUrl = "";
+        String[] spsstr = spliturlr.split(";");
+        for (int i = 1; i < spsstr.length - 2; i++) {
+            trueUrl = trueUrl + spsstr[i].substring(spsstr[i].indexOf("'") + 1, spsstr[i].lastIndexOf("'"));
+        }
+
+        Map<String, String> re = new HashMap<>();
+//        System.out.println("trueUrl:" + trueUrl)
+        System.out.println("{\"article\":" + "\"" + article + "\"," + "\"trueUrl\":\"" + trueUrl + "\"}");
+        JSONObject jsonObject = JSON.parseObject("{\"article\":" + "\"" + article + "\"," + "\"trueUrl\":\"" + trueUrl + "\"}");
+        return jsonObject;
+    }
+
+
+    public void startSplider() {
         Properties prop = loadProperties("config.properties");
-        String all_article = prop.getProperty("all_article");
-        String wechatNames[] = all_article.split(",");
+        String allArticle = prop.getProperty("all_article");
+        String[] wechatNames = allArticle.split(",");
         for (int i = 0; i < wechatNames.length; i++) {
             String wechatName = wechatNames[i];
             System.out.println(wechatName);
-            String result = startThreeTimeAccess(wechatName);
+            JSONObject result = startThreeTimeAccess(wechatName);
             try {
-                //每次间隔10min
                 Thread.sleep(6 * 5 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             if ("".equals(result)) {
                 System.out.println(wechatName + "抓取失败");
                 continue;
             }
             resultStrToMysql(wechatName, result);
-            picToLocal(result);
         }
     }
 
 
     public static void main(String args[]) {
-        startSplider();
+        SpliderWechat sw = new SpliderWechat();
+        sw.startSplider();
     }
 }
