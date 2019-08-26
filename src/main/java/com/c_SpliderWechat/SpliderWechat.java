@@ -47,7 +47,7 @@ public class SpliderWechat {
             String sql = "INSERT INTO article_info "
                     + "(title,article_jsonarray,article_source) "
                     + "VALUES "
-                    + "(?,?,?,?,?)";
+                    + "(?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, result.getString("article"));
             ps.setString(2, result.getString("trueUrl"));
@@ -243,7 +243,7 @@ public class SpliderWechat {
     }
 
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         SpliderWechat sw = new SpliderWechat();
         sw.startSplider();
     }
