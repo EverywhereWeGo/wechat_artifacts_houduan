@@ -40,7 +40,6 @@ public class SpliderWechat {
         try {
             Statement deleteStatement = conn.createStatement();
             String deleteSql = "DELETE FROM article_info WHERE article_source= \"" + datasource + "\"";
-            System.out.println(deleteSql);
             deleteStatement.execute(deleteSql);
 
             conn.setAutoCommit(false);
