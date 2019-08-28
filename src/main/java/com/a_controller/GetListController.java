@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @RestController
-public class HelloController {
+public class GetListController {
 
     @RequestMapping("/getList")
     public String index() {
