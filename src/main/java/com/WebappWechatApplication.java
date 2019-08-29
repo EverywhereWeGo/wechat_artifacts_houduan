@@ -49,6 +49,7 @@ public class WebappWechatApplication {
         }
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
+            @Override
             public void run() {
                 sw.startSplider();
                 System.out.println("等待下一次抓取");

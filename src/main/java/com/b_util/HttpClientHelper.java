@@ -24,13 +24,13 @@ public class HttpClientHelper {
         PostMethod postMethod = new PostMethod(urlParam);
         // 设置post请求超时时间
         postMethod.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, 100000);
-        if (!(null == requestHeaders)) {
+        if (null != requestHeaders) {
             for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
                 postMethod.addRequestHeader(entry.getKey(), entry.getValue());
             }
         }
 
-        if (!(null == params)) {
+        if (null != params) {
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 postMethod.setParameter(entry.getKey(), entry.getValue());
             }
@@ -58,7 +58,7 @@ public class HttpClientHelper {
         httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(100000);
         // 创建GET请求方法实例对象
         GetMethod getMethod = new GetMethod(url);
-        if (!(null == requestHeaders)) {
+        if (null != requestHeaders) {
             for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
                 getMethod.addRequestHeader(entry.getKey(), entry.getValue());
             }
@@ -68,18 +68,19 @@ public class HttpClientHelper {
             httpClient.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
             httpClient.executeMethod(getMethod);
 
-            String cookiestr = "";
+            StringBuilder cookiestr = new StringBuilder("");
             Cookie[] cookies = httpClient.getState().getCookies();
-            if (!(cookies.length == 0)) {
+            if (cookies.length != 0) {
                 for (int i = 0; i < cookies.length; i++) {
-                    cookiestr = cookiestr + cookies[i].toString() + ";";
+                    cookiestr.append(cookies[i].toString() + ";");
                 }
-                cookiestr = cookiestr.substring(0, cookiestr.length() - 1);
+                cookiestr.deleteCharAt(cookiestr.lastIndexOf(";"));
             }
-
             String result = getMethod.getResponseBodyAsString();
-            responseMap.put("responseCookie", cookiestr);
+            responseMap.put("responseCookie", cookiestr.toString());
             responseMap.put("responseContext", result);
+
+
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -91,7 +92,7 @@ public class HttpClientHelper {
     }
 
     //发送get请求获取图片
-    public static Map<String, String> sendGetToGetPicture(String url, Map<String, String> requestHeaders, String title) {
+    public static Map<String, String> sendGetToGetPicture(String url, Map<String, String> requestHeaders, String path) {
         Map<String, String> responseMap = new HashMap<String, String>();
         // 创建httpClient实例对象
         HttpClient httpClient = new HttpClient();
@@ -99,7 +100,7 @@ public class HttpClientHelper {
         httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(100000);
         // 创建GET请求方法实例对象
         GetMethod getMethod = new GetMethod(url);
-        if (!(null == requestHeaders)) {
+        if (null != requestHeaders) {
             for (Map.Entry<String, String> entry : requestHeaders.entrySet()) {
                 getMethod.addRequestHeader(entry.getKey(), entry.getValue());
             }
@@ -108,25 +109,23 @@ public class HttpClientHelper {
             httpClient.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
             httpClient.executeMethod(getMethod);
 
-//            File storeFile = new File("C:\\Users\\Administrator\\Desktop\\我的代码\\wechat_artifacts_qianduan\\img\\" + title + ".jpg");
-            File storeFile = new File("/opt/wechat_article/qianduan/img/" + title + ".jpg");
-
+            File storeFile = new File(path);
             FileOutputStream output = new FileOutputStream(storeFile);
             //得到网络资源的字节数组,并写入文件
             output.write(getMethod.getResponseBody());
             output.close();
 
-            String cookiestr = "";
+            StringBuilder cookiestr = new StringBuilder("");
             Cookie[] cookies = httpClient.getState().getCookies();
-            if (!(cookies.length == 0)) {
+            if (cookies.length != 0) {
                 for (int i = 0; i < cookies.length; i++) {
-                    cookiestr = cookiestr + cookies[i].toString() + ";";
+                    cookiestr.append(cookies[i].toString() + ";");
                 }
-                cookiestr = cookiestr.substring(0, cookiestr.length() - 1);
+                cookiestr.deleteCharAt(cookiestr.lastIndexOf(";"));
             }
 
             String result = getMethod.getResponseBodyAsString();
-            responseMap.put("responseCookie", cookiestr);
+            responseMap.put("responseCookie", cookiestr.toString());
             responseMap.put("responseContext", result);
         } catch (IOException | IllegalArgumentException e) {
             e.printStackTrace();
@@ -136,6 +135,4 @@ public class HttpClientHelper {
 
         return responseMap;
     }
-
-
 }

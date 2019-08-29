@@ -1,5 +1,7 @@
 package com.a_controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.b_util.basicUtil.a_DBUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,25 +15,26 @@ import java.sql.SQLException;
 public class GetListController {
 
     @RequestMapping("/getList")
-    public String index() {
-        String resultstr = "";
+    public JSONArray index() {
+        JSONArray array =new JSONArray();
         try {
             Connection conn = a_DBUtil.getConnection();
-            String sql = "Select * from article_info order by article_date DESC";
+            String sql = "Select * from article_info_v2 order by article_date DESC";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
+            JSONObject obj = new JSONObject();
             while (rs.next()) {
-                String article_jsonarray = rs.getString("article_jsonarray");
-                article_jsonarray = article_jsonarray + ",";
-                resultstr += article_jsonarray;
+                String title =rs.getString("title");
+                String articleJsonarray = rs.getString("tureurl");
+                obj.put("title", title);
+                obj.put("tureurl",articleJsonarray);
+                array.add(obj);
             }
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        resultstr = resultstr.substring(0, resultstr.length() - 1);
-        return "[" + resultstr + "]";
-
+        return array;
     }
 
 }

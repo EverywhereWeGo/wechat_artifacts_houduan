@@ -20,7 +20,7 @@ import java.util.*;
 import static com.b_util.HttpClientHelper.*;
 import static com.b_util.basicUtil.b_PropertiesLoadUtil.loadProperties;
 
-public class SpliderWechat {
+public class SpliderWechat implements Splider {
     public void picToLocal(String result) {
         JSONArray jsonArray = JSON.parseArray(result);
         for (int j = 0; j < jsonArray.size(); j++) {
@@ -29,43 +29,11 @@ public class SpliderWechat {
             if (null == cover) {
                 cover = jsonArray.getJSONObject(j).getJSONObject("app_msg_ext_info").getJSONArray("multi_app_msg_item_list").getJSONObject(0).getString("cover");
             }
-            sendGetToGetPicture(cover, null, id);
+            sendGetToGetPicture(cover, null, "/opt/wechat_article/qianduan/img/" + id + ".jpg");
         }
         System.out.println("图片下载完毕");
     }
 
-
-    public void listToMysql(String datasource, JSONObject result) {
-        Connection conn = a_DBUtil.getConnection();
-        try {
-            Statement deleteStatement = conn.createStatement();
-            String deleteSql = "DELETE FROM article_info WHERE article_source= \"" + datasource + "\"";
-            deleteStatement.execute(deleteSql);
-
-            conn.setAutoCommit(false);
-            String sql = "INSERT INTO article_info "
-                    + "(title,article_jsonarray,article_source) "
-                    + "VALUES "
-                    + "(?,?,?)";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, result.getString("article"));
-            ps.setString(2, result.getString("trueUrl"));
-            ps.setString(3, result.getString(datasource));
-            ps.addBatch();
-            ps.executeBatch();
-            conn.commit();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-        System.out.println("入库完毕");
-    }
 
     public List<JSONObject> getInfoList(String msgList) {
         List<JSONObject> resultlist = new LinkedList<JSONObject>();
@@ -154,11 +122,41 @@ public class SpliderWechat {
     }
 
 
-    public void resultStrToMysql(String datasource, JSONObject htmlstr) {
-        listToMysql(datasource, htmlstr);
+    @Override
+    public void resultToMysql(String datasource, JSONObject htmlstr) {
+        Connection conn = a_DBUtil.getConnection();
+        try {
+            Statement deleteStatement = conn.createStatement();
+            String deleteSql = "DELETE FROM article_info_v2 WHERE article_source= \"" + datasource + "\"";
+            deleteStatement.execute(deleteSql);
+
+            conn.setAutoCommit(false);
+            String sql = "INSERT INTO article_info_v2 "
+                    + "(article_source,title,tureurl) "
+                    + "VALUES "
+                    + "(?,?,?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, datasource);
+            ps.setString(2, htmlstr.getString("article"));
+            ps.setString(3, htmlstr.getString("trueUrl"));
+            ps.addBatch();
+            ps.executeBatch();
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        System.out.println("入库完毕");
     }
 
-    public JSONObject startThreeTimeAccess(String urlname) {
+    @Override
+    public JSONObject execute(String urlname) {
         String urls = null;
         try {
             urls = URLEncoder.encode(urlname, "utf-8");
@@ -212,14 +210,16 @@ public class SpliderWechat {
             trueUrl = trueUrl + spsstr[i].substring(spsstr[i].indexOf("'") + 1, spsstr[i].lastIndexOf("'"));
         }
 
-        Map<String, String> re = new HashMap<>();
 //        System.out.println("trueUrl:" + trueUrl)
-        System.out.println("{\"article\":" + "\"" + article + "\"," + "\"trueUrl\":\"" + trueUrl + "\"}");
-        JSONObject jsonObject = JSON.parseObject("{\"article\":" + "\"" + article + "\"," + "\"trueUrl\":\"" + trueUrl + "\"}");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("article", article);
+        jsonObject.put("trueUrl", trueUrl);
+
         return jsonObject;
     }
 
 
+    @Override
     public void startSplider() {
         Properties prop = loadProperties("config.properties");
         String allArticle = prop.getProperty("all_article");
@@ -227,7 +227,7 @@ public class SpliderWechat {
         for (int i = 0; i < wechatNames.length; i++) {
             String wechatName = wechatNames[i];
             System.out.println(wechatName);
-            JSONObject result = startThreeTimeAccess(wechatName);
+            JSONObject result = execute(wechatName);
             try {
                 Thread.sleep(6 * 5 * 1000);
             } catch (InterruptedException e) {
@@ -237,7 +237,7 @@ public class SpliderWechat {
                 System.out.println(wechatName + "抓取失败");
                 continue;
             }
-            resultStrToMysql(wechatName, result);
+            resultToMysql(wechatName, result);
         }
     }
 
