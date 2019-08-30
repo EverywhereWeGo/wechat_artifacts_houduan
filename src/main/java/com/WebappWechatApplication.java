@@ -21,7 +21,7 @@ public class WebappWechatApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(WebappWechatApplication.class, args);
-        timer();
+//        timer();
     }
 
 

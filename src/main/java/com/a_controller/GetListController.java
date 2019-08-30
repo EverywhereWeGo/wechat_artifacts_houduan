@@ -19,15 +19,15 @@ public class GetListController {
         JSONArray array =new JSONArray();
         try {
             Connection conn = a_DBUtil.getConnection();
-            String sql = "Select * from article_info_v2 order by article_date DESC";
+            String sql = "Select * from article_info_v2 order by article_source";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            JSONObject obj = new JSONObject();
             while (rs.next()) {
                 String title =rs.getString("title");
-                String articleJsonarray = rs.getString("tureurl");
+                String trueurl = rs.getString("trueurl");
+                JSONObject obj = new JSONObject();
                 obj.put("title", title);
-                obj.put("tureurl",articleJsonarray);
+                obj.put("trueurl",trueurl);
                 array.add(obj);
             }
             conn.setAutoCommit(false);

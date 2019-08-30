@@ -132,13 +132,13 @@ public class SpliderWechat implements Splider {
 
             conn.setAutoCommit(false);
             String sql = "INSERT INTO article_info_v2 "
-                    + "(article_source,title,tureurl) "
+                    + "(article_source,title,trueurl) "
                     + "VALUES "
                     + "(?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, datasource);
             ps.setString(2, htmlstr.getString("article"));
-            ps.setString(3, htmlstr.getString("trueUrl"));
+            ps.setString(3, htmlstr.getString("trueurl"));
             ps.addBatch();
             ps.executeBatch();
             conn.commit();
@@ -210,10 +210,10 @@ public class SpliderWechat implements Splider {
             trueUrl = trueUrl + spsstr[i].substring(spsstr[i].indexOf("'") + 1, spsstr[i].lastIndexOf("'"));
         }
 
-//        System.out.println("trueUrl:" + trueUrl)
+        System.out.println("trueUrl:" + trueUrl);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("article", article);
-        jsonObject.put("trueUrl", trueUrl);
+        jsonObject.put("trueurl", trueUrl);
 
         return jsonObject;
     }
