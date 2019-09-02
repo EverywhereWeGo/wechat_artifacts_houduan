@@ -1,9 +1,11 @@
 package com.c_SpliderWechat;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
 
 public interface Splider {
     void startSplider();
-    JSONObject execute(String urlname);
-    void resultToMysql(String datasource, JSONObject htmlstr);
+
+    JSONArray execute(String urlname);
+
+    void resultToMysql(String datasource, JSONArray htmlstr);
 }
