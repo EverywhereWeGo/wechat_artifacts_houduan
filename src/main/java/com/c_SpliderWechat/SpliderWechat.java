@@ -24,45 +24,10 @@ public class SpliderWechat implements Splider {
     private Properties prop = loadProperties("config.properties");
     private String savePicpathPrefxi = prop.getProperty("savepicpath_prefxi");
 
-
-    public void getMoreInfo(String article, Map<String, String> requestHeaders) {
-        try {
-            article = URLEncoder.encode(article, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        String t = "https://weixin.sogou.com/weixin?type=2&s_from=input&query=" + article;
-        System.out.println(t);
-        Map<String, String> resultUrl2 = sendGet(t, requestHeaders);
-        String spliturlr = resultUrl2.get("responseContext");
-        System.out.println(spliturlr);
-
-        Document doc = Jsoup.parse(spliturlr);
-        String pichref = doc.getElementById("sogou_vr_11002601_img_0").getElementsByTag("img").first().attr("src");
-        System.out.println(pichref);
-        Element eleText = doc.getElementById("sogou_vr_11002601_summary_0");
-        String text = eleText.text();
-        System.out.println(text);
-
-    }
-
     public String getPictureAndUrl(String picsrc, String i) {
         String picurl = "img/wechat/" + i + ".jpg";
         sendGetToGetPicture(picsrc, null, savePicpathPrefxi + picurl);
         return picurl;
-    }
-
-    public void picToLocal(String result) {
-        JSONArray jsonArray = JSON.parseArray(result);
-        for (int j = 0; j < jsonArray.size(); j++) {
-            String cover = jsonArray.getJSONObject(j).getJSONObject("app_msg_ext_info").getString("cover");
-            String id = jsonArray.getJSONObject(j).getJSONObject("comm_msg_info").getString("id");
-            if (null == cover) {
-                cover = jsonArray.getJSONObject(j).getJSONObject("app_msg_ext_info").getJSONArray("multi_app_msg_item_list").getJSONObject(0).getString("cover");
-            }
-            sendGetToGetPicture(cover, null, savePicpathPrefxi + "/img/wechat/" + id + ".jpg");
-        }
-        System.out.println("图片下载完毕");
     }
 
     public List<String> getLasttimeArticleTitle() {
@@ -167,7 +132,6 @@ public class SpliderWechat implements Splider {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
         System.out.println("入库完毕");
     }
@@ -193,8 +157,6 @@ public class SpliderWechat implements Splider {
         Map<String, String> resultUrl1 = sendGet(url1, requestHeaders);
         String responseContext = resultUrl1.get("responseContext");
         String cookie = resultUrl1.get("responseCookie");
-//        System.out.println("responseContext:" + responseContext);
-//        System.out.println(cookie);
 
         Document doc = Jsoup.parse(responseContext);
         Element ele = doc.getElementById("sogou_vr_11002301_box_0");
@@ -202,8 +164,6 @@ public class SpliderWechat implements Splider {
         String linkUrl = eles.last().attr("href");
         String article = eles.last().text();
         linkUrl = linkUrl.replace("&amp;", "&");
-//        System.out.println("article:" + article);
-//        System.out.println("linkUrl:" + linkUrl);
 
         int a = linkUrl.indexOf("url=");
         int c = linkUrl.indexOf("&k=");
@@ -213,7 +173,6 @@ public class SpliderWechat implements Splider {
             linkUrl = linkUrl + "&k=" + b + "&h=" + check;
         }
         linkUrl = "https://weixin.sogou.com" + linkUrl;
-//        System.out.println("linkUrl:" + linkUrl);
 
         requestHeaders.put("Cookie", cookie);
         requestHeaders.put("Referer", url1);
@@ -221,13 +180,11 @@ public class SpliderWechat implements Splider {
         //第二次带cookie访问
         Map<String, String> resultUrl2 = sendGet(linkUrl, requestHeaders);
         String spliturlr = resultUrl2.get("responseContext");
-//        System.out.println(spliturlr);
         String trueUrl = "";
         String[] spsstr = spliturlr.split(";");
         for (int i = 1; i < spsstr.length - 2; i++) {
             trueUrl = trueUrl + spsstr[i].substring(spsstr[i].indexOf("'") + 1, spsstr[i].lastIndexOf("'"));
         }
-//        System.out.println("trueUrl:" + trueUrl);
 
         //第三次通过搜索的方式获取更多信息
         String title = "";
@@ -242,7 +199,6 @@ public class SpliderWechat implements Splider {
 
         Document doc3 = Jsoup.parse(searchInfo);
         String pichref = "http:" + doc3.getElementById("sogou_vr_11002601_img_0").getElementsByTag("img").first().attr("src");
-//        System.out.println(pichref);
         String picpath = getPictureAndUrl(pichref, System.currentTimeMillis() + "");
 
         String introduction = doc3.getElementById("sogou_vr_11002601_summary_0").text();

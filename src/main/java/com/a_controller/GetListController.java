@@ -27,11 +27,13 @@ public class GetListController {
                 String trueurl = rs.getString("trueurl");
                 String datasource = rs.getString("article_source");
                 String picurl = rs.getString("picurl");
+                String abstrac = rs.getString("abstract");
                 JSONObject obj = new JSONObject();
                 obj.put("title", title);
                 obj.put("trueurl", trueurl);
                 obj.put("datasource", datasource);
                 obj.put("picurl", picurl);
+                obj.put("abstract", abstrac);
                 array.add(obj);
             }
             conn.setAutoCommit(false);
@@ -41,8 +43,9 @@ public class GetListController {
         return array;
     }
 
-    @RequestMapping("/favourate")
-    public void index(String title, String source) {
+    @RequestMapping("/collect")
+    public void asdfasdf(String picnum) {
+        System.out.println(picnum);
     }
 
 }

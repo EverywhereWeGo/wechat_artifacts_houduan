@@ -33,14 +33,13 @@ public class SpliderCSDN implements Splider {
 
     @Override
     public void startSplider() {
-        JSONArray a = execute("");
+        JSONArray a = execute("https://www.csdn.net/");
         resultToMysql("CSDN", a);
     }
 
     @Override
-    public JSONArray execute(String urlname) {
+    public JSONArray execute(String url) {
         JSONArray jsonArray = new JSONArray();
-        String url = "https://www.csdn.net/";
 
         Map<String, String> requestHeaders = new HashMap<String, String>();
         requestHeaders.put("Connection", "keep-alive");
@@ -106,7 +105,6 @@ public class SpliderCSDN implements Splider {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
         System.out.println("入库完毕");
 
