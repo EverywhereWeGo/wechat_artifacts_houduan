@@ -87,8 +87,7 @@ public class GetListController {
     }
 
     @RequestMapping("/getcollect")
-    public JSONArray getCollect(String a) {
-        System.out.println(a);
+    public JSONArray getCollect() {
         JSONArray array = new JSONArray();
         try {
             Connection conn = a_DBUtil.getConnection();
