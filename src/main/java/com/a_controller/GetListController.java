@@ -41,7 +41,8 @@ public class GetListController {
     }
 
     @RequestMapping("/collect")
-    public void collect(String picnum) {
+    public String collect(String picnum) {
+        String result = "000";
         System.out.println(picnum);
         Connection conn = a_DBUtil.getConnection();
         try {
@@ -74,9 +75,12 @@ public class GetListController {
                 ps.addBatch();
                 ps.executeBatch();
                 conn.commit();
+                result = "200";
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
+            return result;
         } finally {
             try {
                 conn.close();
@@ -84,6 +88,7 @@ public class GetListController {
                 e.printStackTrace();
             }
         }
+        return result;
     }
 
     @RequestMapping("/getcollect")
@@ -113,5 +118,12 @@ public class GetListController {
             e.printStackTrace();
         }
         return array;
+    }
+
+    public static void main(String[] args) {
+        GetListController a = new GetListController();
+        String b = a.collect("img/wechat/1567754853969.jpg");
+        System.out.println(b);
+
     }
 }

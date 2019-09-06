@@ -31,7 +31,6 @@ public class WebappWechatApplication {
         timer();
     }
 
-
     @Bean
     public FilterRegistrationBean CorsFilterRegistration() {
 
@@ -55,7 +54,7 @@ public class WebappWechatApplication {
                 csdn.startSplider();
                 System.out.println("等待下一次抓取");
             }
-        }, 0, 6 * 60 * 60 * 1000, TimeUnit.HOURS);
+        }, 1, 6, TimeUnit.HOURS);
     }
 
 }
