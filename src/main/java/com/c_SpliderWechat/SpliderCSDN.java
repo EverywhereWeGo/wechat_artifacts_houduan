@@ -20,6 +20,7 @@ import java.util.*;
 
 import static com.b_util.HttpClientHelper.*;
 import static com.b_util.basicUtil.b_PropertiesLoadUtil.loadProperties;
+import static com.b_util.basicUtil.b_PropertiesLoadUtil.loadPropertiesGetSetciontoMap;
 
 public class SpliderCSDN implements Splider {
     private Properties prop = loadProperties("config.properties");
@@ -41,12 +42,7 @@ public class SpliderCSDN implements Splider {
     public JSONArray execute(String url) {
         JSONArray jsonArray = new JSONArray();
 
-        Map<String, String> requestHeaders = new HashMap<String, String>();
-        requestHeaders.put("Connection", "keep-alive");
-        requestHeaders.put("Host", "weixin.sogou.com");
-        requestHeaders.put("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8");
-        requestHeaders.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
-        requestHeaders.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
+        Map<String, String> requestHeaders = loadPropertiesGetSetciontoMap("config.properties","basic-requestheader");
 
         Map<String, String> resultUrl1 = sendGet(url, requestHeaders);
         String responseContext = resultUrl1.get("responseContext");

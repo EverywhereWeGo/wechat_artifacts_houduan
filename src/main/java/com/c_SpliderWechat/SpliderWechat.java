@@ -19,6 +19,7 @@ import java.util.*;
 
 import static com.b_util.HttpClientHelper.*;
 import static com.b_util.basicUtil.b_PropertiesLoadUtil.loadProperties;
+import static com.b_util.basicUtil.b_PropertiesLoadUtil.loadPropertiesGetSetciontoMap;
 
 public class SpliderWechat implements Splider {
     private Properties prop = loadProperties("config.properties");
@@ -52,50 +53,6 @@ public class SpliderWechat implements Splider {
             }
         }
         return alltitles;
-    }
-
-    public static void inputVerificationCode() {
-        double cert = (new Date()).getTime() + Math.random();
-        String url = "http://mp.weixin.qq.com/mp/verifycode?cert=" + cert;
-        System.out.println(url);
-
-        Map<String, String> requestHeaders = new HashMap<String, String>();
-        requestHeaders.put("Connection", "keep-alive");
-        requestHeaders.put("Host", "weixin.sogou.com");
-        requestHeaders.put("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8");
-        requestHeaders.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
-        requestHeaders.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
-
-        Map<String, String> resultUrl4 = sendGetToGetPicture(url, requestHeaders, "yanzhenma");
-        String cookie = resultUrl4.get("responseCookie");
-        try {
-            //等待3分钟手工输入
-            Thread.sleep(3 * 60 * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        Properties prop = new Properties();
-        try {
-//            prop.load(new FileInputStream("C:\\Users\\Administrator\\Desktop\\shuru.txt"));
-            prop.load(new FileInputStream("/opt/yanzhenma.txt"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String input = prop.getProperty("a");
-        System.out.println(input);
-        String url2 = "http://mp.weixin.qq.com/mp/verifycode";
-        System.out.println(url2);
-
-        requestHeaders.put("Cookie", cookie);
-
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("cert", cert + "");
-        params.put("input", input);
-        params.put("appmsg_token", "");
-
-        String htmlstr = sendPost(url2, requestHeaders, params);
-        System.out.println(htmlstr);
     }
 
 
@@ -146,12 +103,7 @@ public class SpliderWechat implements Splider {
             e.printStackTrace();
         }
         String url1 = "https://weixin.sogou.com/weixin?type=1&s_from=input&query=" + urls;
-        Map<String, String> requestHeaders = new HashMap<String, String>();
-        requestHeaders.put("Connection", "keep-alive");
-        requestHeaders.put("Host", "weixin.sogou.com");
-        requestHeaders.put("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8");
-        requestHeaders.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
-        requestHeaders.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
+        Map<String, String> requestHeaders = loadPropertiesGetSetciontoMap("config.properties", "basic-requestheader");
 
         //第一次访问获取cookie以及url
         Map<String, String> resultUrl1 = sendGet(url1, requestHeaders);

@@ -28,7 +28,7 @@ public class WebappWechatApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(WebappWechatApplication.class, args);
-        timer();
+//        timer();
     }
 
 
@@ -56,7 +56,6 @@ public class WebappWechatApplication {
                 System.out.println("等待下一次抓取");
             }
         }, 6 * 60 * 60 * 1000, 6000000, TimeUnit.HOURS);
-
     }
 
 }
