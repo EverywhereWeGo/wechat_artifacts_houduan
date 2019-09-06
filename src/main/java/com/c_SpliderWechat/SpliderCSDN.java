@@ -42,7 +42,7 @@ public class SpliderCSDN implements Splider {
     public JSONArray execute(String url) {
         JSONArray jsonArray = new JSONArray();
 
-        Map<String, String> requestHeaders = loadPropertiesGetSetciontoMap("config.properties","basic-requestheader");
+        Map<String, String> requestHeaders = loadPropertiesGetSetciontoMap("config.properties", "basic-requestheader");
 
         Map<String, String> resultUrl1 = sendGet(url, requestHeaders);
         String responseContext = resultUrl1.get("responseContext");

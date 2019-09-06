@@ -21,12 +21,12 @@ import static com.b_util.basicUtil.b_PropertiesLoadUtil.loadPropertiesGetSetcion
 //定时更新收藏表中的url
 public class SpliderCollection {
     //第三次通过搜索的方式获取更多信息
-    public JSONArray execute(String url) {
+    public void execute(String url) {
         Connection conn = a_DBUtil.getConnection();
         try {
             Statement statement = conn.createStatement();
 
-            String sql = "select  *  from collection order by collecttime desc limit 1";
+            String sql = "select * from collection order by collecttime desc limit 1";
             System.out.println(sql);
             ResultSet rs = statement.executeQuery(sql);
             String title = "";
@@ -58,7 +58,6 @@ public class SpliderCollection {
                 e.printStackTrace();
             }
         }
-        return null;
     }
 
     public static void main(String args[]) {

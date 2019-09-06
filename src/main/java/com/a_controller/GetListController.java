@@ -43,7 +43,6 @@ public class GetListController {
     @RequestMapping("/collect")
     public void collect(String picnum) {
         System.out.println(picnum);
-
         Connection conn = a_DBUtil.getConnection();
         try {
             Statement statement = conn.createStatement();
@@ -64,13 +63,14 @@ public class GetListController {
             }
             if (!"".equals(title)) {
                 conn.setAutoCommit(false);
-                String insertSql = "INSERT INTO collection (title,source,url,picurl,abstract) VALUES (?,?,?,?,?)";
+                String insertSql = "INSERT INTO collection (title,source,url,picurl,abstract,collecttime) VALUES (?,?,?,?,?,?)";
                 PreparedStatement ps = conn.prepareStatement(insertSql);
                 ps.setString(1, title);
                 ps.setString(2, datasource);
                 ps.setString(3, trueurl);
                 ps.setString(4, picurl);
                 ps.setString(5, abstrac);
+                ps.setString(6, String.valueOf(System.currentTimeMillis()));
                 ps.addBatch();
                 ps.executeBatch();
                 conn.commit();
