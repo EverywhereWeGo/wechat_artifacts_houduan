@@ -7,6 +7,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,14 +15,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HttpClientHelper {
-    //    public static Logger logger = Logger.getLogger(HttpClientHelper.class.getName());
-    public static String sendPost(String urlParam, Map<String, String> requestHeaders, Map<String, String> params) {
+    public static String sendPost(String url, Map<String, String> requestHeaders, Map<String, String> params) {
         // 创建httpClient实例对象
         HttpClient httpClient = new HttpClient();
         // 设置httpClient连接主机服务器超时时间：15000毫秒
         httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(100000);
         // 创建post请求方法实例对象
-        PostMethod postMethod = new PostMethod(urlParam);
+        PostMethod postMethod = new PostMethod(url);
         // 设置post请求超时时间
         postMethod.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, 100000);
         if (null != requestHeaders) {
@@ -29,7 +29,6 @@ public class HttpClientHelper {
                 postMethod.addRequestHeader(entry.getKey(), entry.getValue());
             }
         }
-
         if (null != params) {
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 postMethod.setParameter(entry.getKey(), entry.getValue());
@@ -38,19 +37,16 @@ public class HttpClientHelper {
         String result = "";
         try {
             httpClient.executeMethod(postMethod);
-            postMethod.getResponseBodyAsString();
+            result = postMethod.getResponseBodyAsString();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         postMethod.releaseConnection();
         return result;
     }
 
 
     public static Map<String, String> sendGet(String url, Map<String, String> requestHeaders) {
-
         Map<String, String> responseMap = new HashMap<String, String>();
         // 创建httpClient实例对象
         HttpClient httpClient = new HttpClient();
