@@ -4,11 +4,16 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.b_util.basicUtil.a_DBUtil;
+import com.mysql.cj.xdevapi.JsonArray;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static com.b_util.HttpClientHelper.*;
 import static com.b_util.basicUtil.b_PropertiesLoadUtil.loadPropertiesGetSetciontoMap;
@@ -16,20 +21,18 @@ import static com.b_util.basicUtil.b_PropertiesLoadUtil.loadPropertiesGetSetcion
 public class zghjjczz_Wechat implements Splider {
     @Override
     public void startSplider() {
+        JSONArray ja = execute("http://123.127.175.45:8082/ajax/GwtWaterHandler.ashx");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateStr = sdf.format(new Date());
-        resultToMysql(dateStr, jsonArray);
-
-        System.out.println(resultUrl);
+        resultToMysql(dateStr, ja);
     }
 
     @Override
     public JSONArray execute(String urlname) {
-        String url1 = "http://123.127.175.45:8082/ajax/GwtWaterHandler.ashx";
         Map<String, String> requestHeaders = loadPropertiesGetSetciontoMap("config.properties", "requestheader");
         Map<String, String> params = new HashMap<>();
         params.put("Method", "SelectRealData");
-        String resultUrl = sendPost(url1, requestHeaders, params);
+        String resultUrl = sendPost(urlname, requestHeaders, params);
 
         JSONArray jsonArray = JSON.parseArray(resultUrl);
 
@@ -37,7 +40,7 @@ public class zghjjczz_Wechat implements Splider {
     }
 
     @Override
-    public void resultToMysql(String datasource, JSONArray htmlstr) {
+    public void resultToMysql(String datatime, JSONArray htmlstr) {
         Connection conn = a_DBUtil.getConnection();
         try {
             Statement deleteStatement = conn.createStatement();
@@ -50,7 +53,7 @@ public class zghjjczz_Wechat implements Splider {
             PreparedStatement ps = conn.prepareStatement(sql);
             for (Object i : htmlstr) {
                 JSONObject jsonObject = (JSONObject) i;
-                ps.setString(1, datasource);
+                ps.setString(1, datatime);
                 ps.setString(2, jsonObject.getString("siteName"));
                 ps.setString(3, jsonObject.getString("dateTime"));
                 ps.setString(4, jsonObject.getString("pH"));
@@ -79,7 +82,14 @@ public class zghjjczz_Wechat implements Splider {
 
 
     public static void main(String[] args) {
-        zghjjczz_Wechat sw = new zghjjczz_Wechat();
-        sw.execute("");
+        Splider sw = new zghjjczz_Wechat();
+        ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1, new BasicThreadFactory.Builder().namingPattern("example-schedule-pool-%d").daemon(true).build());
+        executorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                sw.startSplider();
+                System.out.println("等待下一次抓取");
+            }
+        }, 0, 6, TimeUnit.HOURS);
     }
 }
