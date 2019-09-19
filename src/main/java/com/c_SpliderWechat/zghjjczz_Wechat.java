@@ -4,16 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.b_util.basicUtil.a_DBUtil;
-import com.mysql.cj.xdevapi.JsonArray;
-import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import java.sql.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import static com.b_util.HttpClientHelper.*;
 import static com.b_util.basicUtil.b_PropertiesLoadUtil.loadPropertiesGetSetciontoMap;
@@ -82,14 +78,21 @@ public class zghjjczz_Wechat implements Splider {
 
 
     public static void main(String[] args) {
-        Splider sw = new zghjjczz_Wechat();
-        ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1, new BasicThreadFactory.Builder().namingPattern("example-schedule-pool-%d").daemon(true).build());
-        executorService.scheduleAtFixedRate(new Runnable() {
-            @Override
+        zghjjczz_Wechat a = new zghjjczz_Wechat();
+        SimpleDateFormat sdf = null;
+        Date startdate = null;
+        try {
+            sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            startdate = sdf.parse("2019-06-10 08:00:00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
             public void run() {
-                sw.startSplider();
+                a.startSplider();
                 System.out.println("等待下一次抓取");
             }
-        }, 0, 6, TimeUnit.HOURS);
+        }, startdate, 4 * 60 * 60 * 1000);
     }
 }

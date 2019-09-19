@@ -1,10 +1,7 @@
 package com.b_util.basicUtil;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 public class b_PropertiesLoadUtil {
     public static Properties loadProperties(String fileName) {
