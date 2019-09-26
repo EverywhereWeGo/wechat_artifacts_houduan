@@ -46,15 +46,19 @@ public class WebappWechatApplication {
     public static void timer() {
         Splider sw = new SpliderWechat();
         Splider csdn = new SpliderCSDN();
-        ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1, new BasicThreadFactory.Builder().namingPattern("example-schedule-pool-%d").daemon(true).build());
+        ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1,
+                new BasicThreadFactory.Builder().namingPattern("example-schedule-pool-%d").daemon(true).build());
         executorService.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                sw.startSplider();
-                csdn.startSplider();
+//                sw.startSplider();
+//                csdn.startSplider();
                 System.out.println("等待下一次抓取");
             }
-        }, 1, 6, TimeUnit.HOURS);
+        }, 1, 10, TimeUnit.SECONDS);
+
+
     }
+
 
 }

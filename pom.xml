@@ -180,7 +180,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- 拷贝配置文件到config目录 -->
+            <!-- 拷贝配置文件到config目录,拷贝启停脚本到bin目录 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -196,6 +196,25 @@
                             <resources>
                                 <resource>
                                     <directory>${basedir}/src/main/resources/</directory>
+                                    <includes>
+                                        <include>*.*</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-spring-boot-terminal</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/bin</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/01.terminal</directory>
                                     <includes>
                                         <include>*.*</include>
                                     </includes>
