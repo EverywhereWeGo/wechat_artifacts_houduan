@@ -175,7 +175,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <outputDirectory>${project.build.directory}/PACKAGE/lib</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -192,7 +192,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/config</outputDirectory>
+                            <outputDirectory>${project.build.directory}/PACKAGE/config</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${basedir}/src/main/resources/</directory>
@@ -211,7 +211,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/bin</outputDirectory>
+                            <outputDirectory>${project.build.directory}/PACKAGE/bin</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${basedir}/01.terminal</directory>
