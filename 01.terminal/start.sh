@@ -1,1 +1,3 @@
-java -jar /opt/wechat_article/houduan/wechat_artifacts_houtai-0.0.1.jar 1>/opt/wechat_article/houduan/log 2>/opt/wechat_article/houduan/log &
+#!/bin/sh
+path=/opt/wechat_article/houduan
+java -jar $path/${jarname}-0.0.1.jar 1>$path/log 2>$path/log &
