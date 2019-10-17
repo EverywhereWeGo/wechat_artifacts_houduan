@@ -1,3 +1,5 @@
 #!/bin/sh
-path=/opt/wechat_article/houduan
+script_abs=$(readlink -f "$0")
+path=$(dirname $script_abs)
+
 java -jar $path/${jarname}-0.0.1.jar 1>$path/log 2>$path/log &

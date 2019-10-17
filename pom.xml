@@ -120,7 +120,6 @@
         </resources>
 
 
-
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -161,6 +160,9 @@
                         <exclude>/*.xml</exclude>
                         <exclude>/*.properties</exclude>
                     </excludes>
+                    <outputDirectory>
+                        ${project.build.directory}/PACKAGE
+                    </outputDirectory>
                 </configuration>
             </plugin>
 
