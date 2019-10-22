@@ -1,7 +1,5 @@
-package com.c_SpliderWechat;
+package com.c_Splider;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.b_util.basicUtil.a_DBUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,7 +10,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.b_util.HttpClientHelper.sendGet;
@@ -56,6 +53,7 @@ public class SpliderCollection {
                 conn.close();
             } catch (Exception e) {
                 e.printStackTrace();
+
             }
         }
     }
@@ -65,4 +63,5 @@ public class SpliderCollection {
         a.execute("");
 
     }
+
 }

@@ -1,21 +1,15 @@
-package com.c_SpliderWechat;
+package com.c_Splider.splider;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.b_util.basicUtil.a_DBUtil;
+import com.c_Splider.Splider;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.awt.font.ImageGraphicAttribute;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.sql.*;
-import java.util.Date;
 import java.util.*;
 
 import static com.b_util.HttpClientHelper.*;

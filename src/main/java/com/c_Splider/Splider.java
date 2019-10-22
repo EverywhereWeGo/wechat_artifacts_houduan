@@ -1,4 +1,4 @@
-package com.c_SpliderWechat;
+package com.c_Splider;
 
 import com.alibaba.fastjson.JSONArray;
 
