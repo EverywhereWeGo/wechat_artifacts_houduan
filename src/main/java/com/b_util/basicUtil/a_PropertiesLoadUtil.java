@@ -1,15 +1,17 @@
 package com.b_util.basicUtil;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
-public class b_PropertiesLoadUtil {
+public class a_PropertiesLoadUtil {
     public static Properties loadProperties(String fileName) {
         Properties prop = new Properties();
-        InputStream in = b_PropertiesLoadUtil.class.getClassLoader().getResourceAsStream(fileName);
+        InputStream in = a_PropertiesLoadUtil.class.getClassLoader().getResourceAsStream(fileName);
         try {
             prop.load(in);
         } catch (IOException e) {
@@ -29,7 +31,7 @@ public class b_PropertiesLoadUtil {
     //实现类似python 配置文件中section的功能
     public static Map<String, String> loadPropertiesGetSetciontoMap(String fileName, String sectionName) {
         Map<String, String> sectioMap = new HashMap<>();
-        InputStream in = b_PropertiesLoadUtil.class.getClassLoader().getResourceAsStream(fileName);
+        InputStream in = a_PropertiesLoadUtil.class.getClassLoader().getResourceAsStream(fileName);
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         try {
             String tempStr;

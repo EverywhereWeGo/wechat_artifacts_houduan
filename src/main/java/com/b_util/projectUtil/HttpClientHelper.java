@@ -1,17 +1,18 @@
-package com.b_util;
+package com.b_util.projectUtil;
 
+import com.sun.deploy.net.HttpResponse;
 import org.apache.commons.httpclient.Cookie;
+import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 public class HttpClientHelper {
     //    public static Logger logger = Logger.getLogger(HttpClientHelper.class.getName());
@@ -68,11 +69,11 @@ public class HttpClientHelper {
             httpClient.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
             httpClient.executeMethod(getMethod);
 
-            StringBuilder cookiestr = new StringBuilder("");
+            StringBuilder cookiestr = new StringBuilder();
             Cookie[] cookies = httpClient.getState().getCookies();
             if (cookies.length != 0) {
-                for (int i = 0; i < cookies.length; i++) {
-                    cookiestr.append(cookies[i].toString() + ";");
+                for (Cookie cookie : cookies) {
+                    cookiestr.append(cookie.toString()).append(";");
                 }
                 cookiestr.deleteCharAt(cookiestr.lastIndexOf(";"));
             }
@@ -115,11 +116,11 @@ public class HttpClientHelper {
             output.write(getMethod.getResponseBody());
             output.close();
 
-            StringBuilder cookiestr = new StringBuilder("");
+            StringBuilder cookiestr = new StringBuilder();
             Cookie[] cookies = httpClient.getState().getCookies();
             if (cookies.length != 0) {
-                for (int i = 0; i < cookies.length; i++) {
-                    cookiestr.append(cookies[i].toString() + ";");
+                for (Cookie cookie : cookies) {
+                    cookiestr.append(cookie.toString()).append(";");
                 }
                 cookiestr.deleteCharAt(cookiestr.lastIndexOf(";"));
             }

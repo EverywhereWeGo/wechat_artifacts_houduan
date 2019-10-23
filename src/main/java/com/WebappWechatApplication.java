@@ -1,8 +1,6 @@
 package com;
 
 import com.c_SpliderWechat.Splider;
-import com.c_SpliderWechat.splider.SpliderCSDN;
-import com.c_SpliderWechat.splider.SpliderWechat;
 import com.filter.CorsFilter;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.boot.SpringApplication;
@@ -38,8 +36,6 @@ public class WebappWechatApplication {
     }
 
     public static void timer() {
-        Splider sw = new SpliderWechat();
-        Splider csdn = new SpliderCSDN();
         ScheduledExecutorService executorService = new ScheduledThreadPoolExecutor(1,
                 new BasicThreadFactory.Builder().namingPattern("example-schedule-pool-%d").daemon(true).build());
         executorService.scheduleAtFixedRate(new Runnable() {

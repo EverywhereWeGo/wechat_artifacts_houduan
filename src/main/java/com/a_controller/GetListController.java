@@ -2,11 +2,12 @@ package com.a_controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.b_util.basicUtil.a_DBUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.*;
+
+import static com.b_util.basicUtil.b_DBUtil_ConnectionPool.getConnection;
 
 @RestController
 public class GetListController {
@@ -15,7 +16,7 @@ public class GetListController {
     public JSONArray getList() {
         JSONArray array = new JSONArray();
         try {
-            Connection conn = a_DBUtil.getConnection();
+            Connection conn = getConnection();
             String sql = "Select * from article_info_v2 order by article_source";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -44,7 +45,7 @@ public class GetListController {
     public String collect(String picnum) {
         String result = "000";
         System.out.println(picnum);
-        Connection conn = a_DBUtil.getConnection();
+        Connection conn = getConnection();
         try {
             Statement statement = conn.createStatement();
             String sql = "select * from article_info_v2 where picurl=\"" + picnum + "\"";
@@ -95,7 +96,7 @@ public class GetListController {
     public JSONArray getCollect() {
         JSONArray array = new JSONArray();
         try {
-            Connection conn = a_DBUtil.getConnection();
+            Connection conn = getConnection();
             String sql = "Select * from collection order by collecttime desc";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
