@@ -1,8 +1,6 @@
 package com.b_util.projectUtil;
 
-import com.sun.deploy.net.HttpResponse;
 import org.apache.commons.httpclient.Cookie;
-import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -12,7 +10,6 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.GZIPInputStream;
 
 public class HttpClientHelper {
     //    public static Logger logger = Logger.getLogger(HttpClientHelper.class.getName());

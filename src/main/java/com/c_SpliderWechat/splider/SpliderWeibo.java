@@ -28,6 +28,7 @@ public class SpliderWeibo implements Splider {
         String cookie = resultUrl1.get("responseCookie");
         System.out.println(responseContext);
 
+
 //        System.out.println(re);
         JSONObject jsonObject = JSON.parseObject(responseContext);
         JSONArray ja = jsonObject.getJSONObject("data").getJSONArray("statuses");
@@ -57,5 +58,7 @@ public class SpliderWeibo implements Splider {
     public static void main(String[] args) {
         Splider a = new SpliderWeibo();
         a.startSplider();
+
     }
 }
+
