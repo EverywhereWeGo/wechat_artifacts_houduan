@@ -32,7 +32,7 @@ public class SpliderWeibo implements Splider {
 //        System.out.println(re);
         JSONObject jsonObject = JSON.parseObject(responseContext);
         JSONArray ja = jsonObject.getJSONObject("data").getJSONArray("statuses");
-        String id ;
+        String id;
         String text;
         for (int i = 0; i < ja.size(); i++) {
             id = ja.getJSONObject(i).getString("id");
@@ -51,8 +51,12 @@ public class SpliderWeibo implements Splider {
 
     @Override
     public void startSplider() {
+//        JSONArray a = execute("https://m.weibo.cn/profile/info?uid=5035522040");
         JSONArray a = execute("https://m.weibo.cn/profile/info?uid=7136225579");
-//        resultToMysql("CSDN", a);
+//        JSONArray a = execute("https://m.weibo.cn/profile/info?uid=3687300407");
+//        JSONArray a = execute("https://m.weibo.cn/profile/info?uid=5556273965");
+
+
     }
 
     public static void main(String[] args) {
